@@ -1,0 +1,78 @@
+//イベントマスタ
+create table TB_MST_EVENT(
+EVENT_ID VARCHAR(10) NOT NULL,
+EVENT_NAME VARCHAR(255) NOT NULL,
+EVENT_MEMO VARCHAR(1024),
+EVENT_URL VARCHAR(10),
+primary key(EVENT_ID)
+);
+
+comment on table TB_MST_EVENT is ‘イベントマスタ’;
+comment on table TB_MST_EVENT.EVENT_ID is ‘イベントID’;
+comment on table TB_MST_EVENT.EVENT_NAME is ‘イベントマスタ’;
+comment on table TB_MST_EVENT.EVENT_MEMO is ‘イベントメモ’;
+comment on table TB_MST_EVENT.EVENT_URL is ‘イベントURL’;
+
+
+//候補日マスタ
+create table TB_MST_EVENT_DATE(
+EVENT_ID VARCHAR(10) NOT NULL,
+EVENT_DATE_NO VARCHAR(255) NOT NULL,
+EVENT_DATE VARCHAR(10) NOT NULL,
+primary key(EVENT_DATE_NO,EVENT_ID)
+);
+
+alter table TB_MST_EVENT_DATE 
+add constraint TB_MST_EVENT_DATE_FK foreign key(EVENT_ID)
+references TB_MST_EVENT(EVENT_ID) on delete cascade;
+
+comment on table TB_MST_EVENT_DATE is ‘候補日’;
+comment on table TB_MST_EVENT_DATE.EVENT_ID is ‘イベントID’;
+comment on table TB_MST_EVENT_DATE.EVENT_DATE_NO is ‘候補日No’;
+comment on table TB_MST_EVENT_DATE.EVENT_DATE is ‘候補日’;
+
+
+//回答者
+create table TB_TRN_USER_ANSWER(
+EVENT_ID VARCHAR(10) NOT NULL,
+ANSWER_USER_NAME VARCHAR(255) NOT NULL,
+ANSWER_USER_COMMENT VARCHAR(255),
+primary key(ANSWER_USER_NAME,EVENT_ID)
+);
+
+alter table TB_TRN_USER_ANSWER 
+add constraint TB_TRN_USER_ANSWER_FK foreign key(EVENT_ID)
+references TB_MST_EVENT(EVENT_ID) on delete cascade;
+
+comment on table TB_TRN_USER_ANSWER is ‘回答者’;
+comment on table TB_TRN_USER_ANSWER.EVENT_ID is ‘イベントID’;
+comment on table TB_TRN_USER_ANSWER.ANSWER_USER_NAME is ‘氏名’;
+comment on table TB_TRN_USER_ANSWER.ANSWER_USER_COMMENT is ‘コメント’;
+
+
+//回答情報
+create table TB_TRN_ANSWER_ATTEND(
+ANSWER_ATTEND_NO VARCHAR(10) NOT NULL,
+EVENT_ID VARCHAR(10) NOT NULL,
+ANSWER_USER_NAME VARCHAR(255) NOT NULL,
+ANSWER_EVENT_DATE VARCHAR(1024) NOT NULL,
+ANSWER_ATTENDANCE CHAR(1),
+primary key(ANSWER_ATTEND_NO,EVENT_ID,ANSWER_USER_NAME)
+);
+
+alter table TB_TRN_ANSWER_ATTEND 
+add constraint TB_TRN_ANSWER_ATTEND_FK1 foreign key(EVENT_ID)
+references TB_MST_EVENT(EVENT_ID) on delete cascade;
+
+alter table TB_TRN_ANSWER_ATTEND 
+add constraint TB_TRN_ANSWER_ATTEND_FK2 foreign key(ANSWER_USER_NAME)
+references TB_TRN_USER_ANSWER(ANSWER_USER_NAME) on delete cascade;
+
+comment on table TB_TRN_ANSWER_ATTEND is ‘回答者情報’;
+comment on table TB_TRN_ANSWER_ATTEND.ANSWER_ATTEND_NO. is ‘回答情報No’;
+comment on table TB_TRN_ANSWER_ATTEND.EVENT_ID is ‘イベントID’;
+comment on table TB_TRN_ANSWER_ATTEND.ANSWER_USER_NAME is ‘氏名’;
+comment on table TB_TRN_ANSWER_ATTEND.ANSWER_EVENT_DATE is ‘候補日’;
+comment on table TB_TRN_ANSWER_ATTEND.ANSWER_ATTENDANCE is ‘回答’;
+
+
