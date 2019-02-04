@@ -7,6 +7,7 @@ EVENT_MEMO VARCHAR(1024),
 EVENT_URL VARCHAR(10),
 primary key(EVENT_ID)
 );
+comment on table TB_MST_EVENT is ‘イベントマスタ’;
 comment on column TB_MST_EVENT.EVENT_ID is 'イベントID';
 comment on column TB_MST_EVENT.EVENT_NAME is 'イベント名';
 comment on column TB_MST_EVENT.EVENT_MEMO is 'イベントメモ';
