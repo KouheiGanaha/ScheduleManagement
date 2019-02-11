@@ -4,6 +4,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,19 +19,39 @@ public class EventRegistController {
 
 	@Autowired EventRegistService eventRegistService;
 
-	//**イベント登録**//
-	@RequestMapping("/event/input")
+	/**初期表示画面**/
+	@RequestMapping("/event/eventRegist")
 	public String index(Model model) {
 		model.addAttribute("eventRegistForm", new EventRegistForm());
-		return "event/input";
+		return "event/eventRegist";
 	}
 
-	@PostMapping("event/create")
-	public String create(@ModelAttribute EventRegistForm eventRegistForm, Model model) {
+
+	/**イベント登録処理**/
+	@PostMapping("/event/create")
+	public String create(@ModelAttribute @Validated EventRegistForm eventRegistForm, BindingResult bindingResult, Model model) {
+		FieldError eventNameError = bindingResult.getFieldError("eventName");
+		FieldError eventDateError = bindingResult.getFieldError("eventDate");
+
+		if(eventNameError != null || eventDateError != null) {
+			if(eventNameError != null) {
+				model.addAttribute("eventNameError", "イベント名を入力して下さい");
+			}
+
+			if(eventDateError != null) {
+				model.addAttribute("eventDateError", "候補日を入力してください");
+			}
+
+			return "event/eventRegist";
+
+		}
+
 		Map<String, Object> result = eventRegistService.create(eventRegistForm);
 		model.addAttribute("map", result);
-		return "event/view";
+		return "event/eventResult";
 
 	}
 
+
 }
+

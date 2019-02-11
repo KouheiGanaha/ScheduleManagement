@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html"
+	xmlns:th="http://www.tyemeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>イベント登録結果画面</title>
+</head>
+<body>
+<H2>イベント登録 結果</H2>
+	<p>イベントURL<input type="text" th:value="@{http://localhost:8080/event/answerRegist(id=${map.get('EVENT_URL')})}"/></p>
+	<a href="/event/answerAttend">出欠参照</a>
+</body>
+</html>

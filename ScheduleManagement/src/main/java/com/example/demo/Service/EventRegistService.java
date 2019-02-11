@@ -8,4 +8,6 @@ public interface EventRegistService {
 
 	public Map<String, Object> create(EventRegistForm eventRegistForm);
 
+	public Map<String, Object> getResult(String eventId);
+
 }

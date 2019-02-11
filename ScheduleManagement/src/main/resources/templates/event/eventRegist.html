@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html" lang="ja"
+	xmlns:th="http://www.tyemeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+	crossorigin="anonymous">
+<title>イベント登録画面</title>
+</head>
+<body>
+
+	<form action="#" th:action="@{/event/create}"
+		th:object="${eventRegistForm}" method="post">
+
+		<div class="alert alert-success" role="alert">
+		<p>イベント登録画面</p>
+			<p th:text="${eventNameError}" style="color: red" />
+			<p th:text="${eventDateError}" style="color: red" />
+
+			<div class="form-group col-6">
+
+				<input type="text" class="form-control" th:field="*{eventName}"
+					placeholder="イベント名" />
+
+				<form>
+					<div class="row">
+						<div class="col">
+
+							<textarea type="text" class="form-control"  rows="6"
+								th:field="*{eventMemo}" placeholder="イベントメモ"></textarea>
+						</div>
+						<div class="col">
+
+							<textarea type="text" class="form-control"  rows="6"
+								th:field="*{eventDate}" placeholder="候補日"></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+			<button type="submit" class="btn btn-outline-primary">登録</button>
+	</form>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+		integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+		integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+		crossorigin="anonymous"></script>
+</body>
+</html>
