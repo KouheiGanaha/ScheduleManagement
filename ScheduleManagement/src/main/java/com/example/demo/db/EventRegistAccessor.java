@@ -19,9 +19,9 @@ public class EventRegistAccessor {
 	 * @param eventUrl
 	 * @return 更新件数
 	 */
-	public int insertEvent(String eventId,String eventName, String eventMemo, String eventUrl) {
+	public int insertEvent(String eventName, String eventMemo, String eventUrl) {
 		int resultCount = jdbcTemplate.update("insert into TB_MST_EVENT(EVENT_ID, EVENT_NAME, EVENT_MEMO, EVENT_URL)"
-				+ "values (?,?,?,?)",eventId,eventName, eventMemo, eventUrl);
+				+ "values (EVENT_ID_SEQ.NEXTVAL,?,?,?)", eventName, eventMemo, eventUrl);
 
 		return resultCount;
 	}
@@ -33,9 +33,9 @@ public class EventRegistAccessor {
 	 * @param eventDate
 	 * @return 更新件数
 	 */
-	public int insertEventDate(String eventId,String eventDateNo,String eventDate) {
+	public int insertEventDate(String eventId, String eventDate) {
 		int resultCount = jdbcTemplate.update("insert into TB_MST_EVENT_DATE(EVENT_ID,EVENT_DATE_NO,EVENT_DATE)"
-				+ "values (?,?,?)",eventId,eventDateNo, eventDate);
+				+ "values (?,EVENT_DATE_NO.NEXTVAL,?)",eventId,eventDate);
 
 		return resultCount;
 	}
@@ -43,12 +43,12 @@ public class EventRegistAccessor {
 	/**
 	 * SEQ取得
 	 */
-	public Map<String, Object> getEventDateSequence(){
-	Map<String, Object> sequence = jdbcTemplate.queryForMap("select case when max(cast(EVENT_DATE_NO as int)) is null then '1' else max(cast(EVENT_DATE_NO as int))+1 end as EVENT_DATE_NO from TB_MST_EVENT_DATE");
+	public Map<String, Object> getEventIdSequence(){
+	Map<String, Object> sequence = jdbcTemplate.queryForMap("select case when max(cast(EVENT_ID as int)) is null then '1' else max(cast(EVENT_ID as int)) end as EVENT_ID from TB_MST_EVENT");
 	return sequence;
 	}
 	public Map<String, Object> getEventSequence(){
-	Map<String, Object> sequence = jdbcTemplate.queryForMap("select case when max(cast(EVENT_ID as int)) is null then '1' else max(cast(EVENT_ID as int))+1 end as EVENT_ID from TB_MST_EVENT");
+	Map<String, Object> sequence = jdbcTemplate.queryForMap("select max(cast(EVENT_ID as int)) as EVENT_ID from TB_MST_EVENT");
 	return sequence;
 	}
 

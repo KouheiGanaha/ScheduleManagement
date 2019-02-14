@@ -1,5 +1,8 @@
 package com.example.demo.Service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -18,47 +21,68 @@ public class EventRegistServiceImpl implements EventRegistService{
 
 	@Override
 	public Map<String, Object> create(EventRegistForm eventRegistForm) {
+		DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+
 		/**
 		 * イベントIDを取得
 		 */
 		String eventId = eventRegistAccessor.getEventSequence().get("EVENT_ID").toString();
 
-		/**
-		 * イベントURL生成
-		 */
+		/**イベントURLのランダム値部分を生成し、DBに重複する値が無いかチェック**/
 		String eventUrl = RandomStringUtils.randomAlphanumeric(10);
+		String eventUrlCount =  eventRegistAccessor.getEventUrl(eventUrl).get("EVENT_URL").toString();
 
-		/**イベントURLの重複チェック**/
-		String eventUrlCheck =eventRegistAccessor.getEventUrl(eventUrl).get("EVENT_URL").toString();
-		while(eventUrlCheck != "0") {
+		/**DBに同じランダム値が存在する場合、処理をループさせる**/
+		while(!eventUrlCount.equals("0")) {
 			eventUrl = RandomStringUtils.randomAlphanumeric(10);
-		}
+			eventUrlCount =  eventRegistAccessor.getEventUrl(eventUrl).get("EVENT_URL").toString();
 
+			/**ランダム値が重複しない場合、ループを抜ける**/
+			if(eventUrlCount.equals("0")) {
+				break;
+			}
+
+		}
 		/**
 		 * イベントマスタに登録
 		 */
-		int updateCount = eventRegistAccessor.insertEvent(eventId,eventRegistForm.getEventName()
+		int updateCount = eventRegistAccessor.insertEvent(eventRegistForm.getEventName()
 				,eventRegistForm.getEventMemo(),eventUrl);
+
 
 		/**
 		 * 改行ごとに候補日を取得して登録する処理
 		 */
 		String resultDate = eventRegistForm.getEventDate();
 		String[] eventDateArray = resultDate.split("\r\n");
+		String eventIdSeq = eventRegistAccessor.getEventIdSequence().get("EVENT_ID").toString();
 
 		for(int i = 0; i < eventDateArray.length; ++i) {
 			String eventDate = eventDateArray[i];
-			String eventDateNo = eventRegistAccessor.getEventDateSequence().get("EVENT_DATE_NO").toString();
 
-			eventRegistAccessor.insertEventDate(eventId, eventDateNo, eventDate);
+			/**候補日の形式チェック**/
+			try {
+				format.parse(eventDate);
+				format.setLenient(false);
+			} catch (ParseException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+				/**候補日の形式が不正の場合、nullを返す**/
+				Map<String, Object> result = null;
+				return result;
+			}
+		}
+
+		/**候補日を１つずつDBに登録していく**/
+		for(int i = 0; i < eventDateArray.length; ++i) {
+		String eventDate = eventDateArray[i];
+		eventRegistAccessor.insertEventDate(eventIdSeq,eventDate);
 		}
 
 		Map<String, Object> row = eventRegistAccessor.getEventData(eventId);
-
 		return row;
 
 	}
-
 
 	public Map<String, Object> getResult(String eventId){
 		Map<String, Object> row = null;

@@ -1,7 +1,6 @@
 package com.example.demo.Form;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
 
 public class EventRegistForm {
 
@@ -22,8 +21,6 @@ public class EventRegistForm {
 
 	/**候補日**/
 	@NotEmpty
-	/**YYYY/mm/dd HH:MM形式を許可する**/
-	@Pattern(regexp="^[0-9]{4}/[01]?[0-9]/[0123]?[0-9]\\s([0-1][0-9]|2[0-3]):[0-5][0-9]$")
 	private String eventDate;
 
 	public String getEventId() {

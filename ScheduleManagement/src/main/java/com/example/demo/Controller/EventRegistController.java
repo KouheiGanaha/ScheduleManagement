@@ -47,6 +47,11 @@ public class EventRegistController {
 		}
 
 		Map<String, Object> result = eventRegistService.create(eventRegistForm);
+		if(result == null) {
+			model.addAttribute("eventDateError", "候補日は正しい形式で入力してください");
+			return "event/eventRegist";
+		}
+
 		model.addAttribute("map", result);
 		return "event/eventResult";
 
