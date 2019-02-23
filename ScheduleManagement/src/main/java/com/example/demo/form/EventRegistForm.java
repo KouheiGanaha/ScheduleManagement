@@ -1,4 +1,4 @@
-package com.example.demo.Form;
+package com.example.demo.form;
 
 import javax.validation.constraints.NotEmpty;
 

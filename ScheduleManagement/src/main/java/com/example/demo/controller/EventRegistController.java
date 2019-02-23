@@ -1,4 +1,4 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,23 +11,25 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.demo.Form.EventRegistForm;
-import com.example.demo.Service.EventRegistService;
+import com.example.demo.form.EventRegistForm;
+import com.example.demo.service.EventRegistService;
 
 @Controller
 public class EventRegistController {
 
 	@Autowired EventRegistService eventRegistService;
 
-	/**初期表示画面**/
-	@RequestMapping("/event/eventRegist")
+
+
+	//初期表示画面
+	@RequestMapping({"/","/event/eventRegist"})
 	public String index(Model model) {
 		model.addAttribute("eventRegistForm", new EventRegistForm());
 		return "event/eventRegist";
 	}
 
 
-	/**イベント登録処理**/
+	//イベント登録処理
 	@PostMapping("/event/create")
 	public String create(@ModelAttribute @Validated EventRegistForm eventRegistForm, BindingResult bindingResult, Model model) {
 		FieldError eventNameError = bindingResult.getFieldError("eventName");
@@ -48,7 +50,7 @@ public class EventRegistController {
 
 		Map<String, Object> result = eventRegistService.create(eventRegistForm);
 		if(result == null) {
-			model.addAttribute("eventDateError", "候補日は正しい形式で入力してください");
+			model.addAttribute("eventDateError", "候補日はyyyy/MM//dd HH:mm形式で入力してください");
 			return "event/eventRegist";
 		}
 
