@@ -29,7 +29,7 @@ public class EventRegistController {
 	}
 
 
-	//イベント登録処理
+	//イベント登録処理 修正中
 	@PostMapping("/event/create")
 	public String create(@ModelAttribute @Validated EventRegistForm eventRegistForm, BindingResult bindingResult, Model model) {
 		FieldError eventNameError = bindingResult.getFieldError("eventName");
@@ -47,8 +47,13 @@ public class EventRegistController {
 			return "event/eventRegist";
 
 		}
+		//候補日の分割
+		String[] eventDate = eventRegistService.getEventDate(eventRegistForm);
 
-		Map<String, Object> result = eventRegistService.create(eventRegistForm);
+		//イベントURL生成
+		String eventUrl = eventRegistService.getEventUrl();
+
+		Map<String, Object> result = eventRegistService.create(eventRegistForm, eventUrl, eventDate);
 		if(result == null) {
 			model.addAttribute("eventDateError", "候補日はyyyy/MM//dd HH:mm形式で入力してください");
 			return "event/eventRegist";

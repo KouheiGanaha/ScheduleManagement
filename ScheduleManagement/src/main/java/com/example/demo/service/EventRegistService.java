@@ -6,8 +6,9 @@ import com.example.demo.form.EventRegistForm;
 
 public interface EventRegistService {
 
-	public Map<String, Object> create(EventRegistForm eventRegistForm);
+	public Map<String, Object> create(EventRegistForm eventRegistForm ,String eventUrl,String eventDate[]);
 
-	public Map<String, Object> getResult(String eventId);
+	public String[] getEventDate(EventRegistForm eventRegistForm);
 
+	public String getEventUrl();
 }
