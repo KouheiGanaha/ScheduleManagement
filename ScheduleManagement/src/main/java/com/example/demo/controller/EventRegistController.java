@@ -33,11 +33,16 @@ public class EventRegistController {
 	@PostMapping("/event/create")
 	public String create(@ModelAttribute @Validated EventRegistForm eventRegistForm, BindingResult bindingResult, Model model) {
 		FieldError eventNameError = bindingResult.getFieldError("eventName");
+		FieldError eventMemoError = bindingResult.getFieldError("eventMemo");
 		FieldError eventDateError = bindingResult.getFieldError("eventDate");
 
-		if(eventNameError != null || eventDateError != null) {
+		if(eventNameError != null || eventMemoError != null || eventDateError != null) {
 			if(eventNameError != null) {
 				model.addAttribute("eventNameError", "イベント名を入力して下さい");
+			}
+
+			if(eventMemoError != null) {
+				model.addAttribute("eventMemoError", "イベントメモを入力して下さい");
 			}
 
 			if(eventDateError != null) {
@@ -47,6 +52,7 @@ public class EventRegistController {
 			return "event/eventRegist";
 
 		}
+
 		//候補日の分割
 		String[] eventDate = eventRegistService.getEventDate(eventRegistForm);
 
