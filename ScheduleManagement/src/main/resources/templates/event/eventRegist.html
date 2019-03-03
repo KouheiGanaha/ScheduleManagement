@@ -10,31 +10,33 @@
 		<title>イベント登録画面</title>
 	</head>
 	<body>
-	<!-- 修正中 -->
-		<div class="container-fluid bg-color-aqua">
+		<form action="#" th:action="@{/event/create}" th:object="${eventRegistForm}" method="post">
 			<div class="container">
-				<form action="#" th:action="@{/event/create}" th:object="${eventRegistForm}" method="post">
-					<div class="row">
+				<div class="row">
+					<div class="bg-gradient-light text-dark">
+						<H2>イベント登録</H2>
 
-					<p th:text="${eventNameError}" style="color: red" />
-					<p th:text="${eventDateError}" style="color: red" />
+						<p th:text="${eventNameError}" style="color: red" />
+						<p th:text="${eventDateError}" style="color: red" />
 
-					<div class="p-3 mb-2 bg-info text-white">
-
-					<label>イベント名</label>
-					<input type="text" th:field="*{eventName}" placeholder="イベント名" />
-
-					<p><textarea type="text" th:field="*{eventMemo}" placeholder="イベントメモ"></textarea></p>
-					<p><textarea type="text" th:field="*{eventDate}" placeholder="候補日"></textarea></p>
-
-					<input type="submit" class="btn btn-outline-dark" value="登録">
+						<div class="col-9 bg-gradient-light">
+						<div class="form-group">
+						<input type="text" class="form-control" th:field="*{eventName}" placeholder="イベント名" />
+						</div>
 					</div>
 
+					<div class="col-12 bg-gradient-light">
+						<textarea type="text" th:field="*{eventMemo}" placeholder="イベントメモ"></textarea>
+						<textarea type="text" th:field="*{eventDate}" placeholder="候補日"></textarea>
 					</div>
-				</form>
+
+					<div class="col-4 bg-gradient-light">
+						<input type="submit" class="btn btn-outline-dark" value="登録">
+					</div>
+					</div>
+				</div>
 			</div>
-		</div>
-
+		</form>
 
 	 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 	 		 integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

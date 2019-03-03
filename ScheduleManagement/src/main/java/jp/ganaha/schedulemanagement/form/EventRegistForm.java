@@ -1,4 +1,4 @@
-package com.example.demo.form;
+package jp.ganaha.schedulemanagement.form;
 
 import javax.validation.constraints.NotEmpty;
 

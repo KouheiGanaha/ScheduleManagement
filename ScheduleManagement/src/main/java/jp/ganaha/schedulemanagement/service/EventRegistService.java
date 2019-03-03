@@ -1,8 +1,8 @@
-package com.example.demo.service;
+package jp.ganaha.schedulemanagement.service;
 
 import java.util.Map;
 
-import com.example.demo.form.EventRegistForm;
+import jp.ganaha.schedulemanagement.form.EventRegistForm;
 
 public interface EventRegistService {
 
@@ -13,5 +13,5 @@ public interface EventRegistService {
 	public String[] getEventDate(EventRegistForm eventRegistForm);
 
 
-	public String getEventUrl();
+	public String getEventUrl(String eventRondomNumber);
 }

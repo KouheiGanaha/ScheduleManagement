@@ -1718,3 +1718,31 @@ Invalid value "2" for parameter "parameterIndex" [90008-197]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.lang.Thread.run(Thread.java:748)
+2019-03-03 20:31:06 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: SQLステートメントに文法エラーがあります "DELETE *[*] FROM TB_MST_EVENT_DATE "; 期待されるステートメント "identifier"
+Syntax error in SQL statement "DELETE *[*] FROM TB_MST_EVENT_DATE "; expected "identifier"; SQL statement:
+delete * FROM TB_MST_EVENT_DATE [42001-197]
+2019-03-03 20:57:52 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: SQLステートメントに文法エラーがあります "TB_MST_EVENT_DATE[*]"; 期待されるステートメント "TRUNCATE, {"
+Syntax error in SQL statement "TB_MST_EVENT_DATE[*]"; expected "TRUNCATE, {"; SQL statement:
+TB_MST_EVENT_DATE [42001-197]
+2019-03-03 22:59:13 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: SQLステートメントに文法エラーがあります "SELECT EVENT_DATE_SEQ.NEXTVAL FROM[*] DUAL "; 期待されるステートメント "identifier"
+Syntax error in SQL statement "SELECT EVENT_DATE_SEQ.NEXTVAL FROM[*] DUAL "; expected "identifier"; SQL statement:
+select EVENT_DATE_SEQ.NEXTVAL FROM DUAL [42001-197]
+2019-03-03 23:23:33 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: SQLステートメントに文法エラーがあります "DELETE *[*] FROM TB_MST_EVENT "; 期待されるステートメント "identifier"
+Syntax error in SQL statement "DELETE *[*] FROM TB_MST_EVENT "; expected "identifier"; SQL statement:
+delete * FROM TB_MST_EVENT [42001-197]
+2019-03-03 23:25:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: SQLステートメントに文法エラーがあります "SELECT EVENT_DATE_SEQ.NEXTVAL FROM[*] DUAL "; 期待されるステートメント "identifier"
+Syntax error in SQL statement "SELECT EVENT_DATE_SEQ.NEXTVAL FROM[*] DUAL "; expected "identifier"; SQL statement:
+select EVENT_DATE_SEQ.NEXTVAL FROM DUAL [42001-197]
+2019-03-03 23:26:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: SQLステートメントに文法エラーがあります "SELECT EVENT_DATE_SEQ.NEXTVAL FROM[*] DUAL "; 期待されるステートメント "identifier"
+Syntax error in SQL statement "SELECT EVENT_DATE_SEQ.NEXTVAL FROM[*] DUAL "; expected "identifier"; SQL statement:
+select EVENT_DATE_SEQ.NEXTVAL FROM DUAL [42001-197]
+2019-03-03 23:27:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: SQLステートメントに文法エラーがあります "SELECT EVENT_DATE_SEQ.NEXTVAL FROM[*] DUAL "; 期待されるステートメント "identifier"
+Syntax error in SQL statement "SELECT EVENT_DATE_SEQ.NEXTVAL FROM[*] DUAL "; expected "identifier"; SQL statement:
+select EVENT_DATE_SEQ.NEXTVAL FROM DUAL [42001-197]
