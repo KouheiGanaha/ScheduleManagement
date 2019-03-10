@@ -21,7 +21,9 @@ public class EventRegistServiceImpl implements EventRegistService{
 	EventRegistAccessor eventRegistAccessor;
 
 
-	//改行ごとに候補日を分割して取得する
+	/**
+	 * 入力された候補日を改行ごとに分割して取得する
+	 */
 	@Override
 	public String[] getEventDate(EventRegistForm eventRegistForm) {
 
@@ -37,7 +39,6 @@ public class EventRegistServiceImpl implements EventRegistService{
 				format.parse(eventdate);
 				format.setLenient(false);
 			} catch (ParseException e) {
-				e.printStackTrace();
 				return null;
 			}
 		}
@@ -45,7 +46,9 @@ public class EventRegistServiceImpl implements EventRegistService{
 		return eventDateArray;
 	}
 
-	//イベントURLのランダム値を生成
+	/**
+	 * イベントURLのランダム値を生成
+	 */
 	@Override
 	public String getRondom() {
 		String eventUrl = RandomStringUtils.randomAlphanumeric(10);
@@ -72,15 +75,22 @@ public class EventRegistServiceImpl implements EventRegistService{
 	}
 
 
+	/**
+	 * イベント情報を登録する
+	 */
 	@Override
-	public Map<String, Object> create(EventRegistForm eventRegistForm, String eventRondomNumber, String eventDateArray[]){
+	public Map<String, Object> create(EventRegistForm eventRegistForm, String eventDateArray[]){
+
+		//イベントURLのランダム値を生成
+		String RondomNumber = getRondom();
 
 		//シーケンス取得
 		int eventId = eventRegistAccessor.getEventId();
 
+
 		//イベントをDBに登録
 		try {
-			eventRegistAccessor.insertEvent(eventId,eventRegistForm.getEventName(),eventRegistForm.getEventMemo(),eventRondomNumber);
+			eventRegistAccessor.insertEvent(eventId,eventRegistForm.getEventName(),eventRegistForm.getEventMemo(),RondomNumber);
 		}catch(RuntimeException e) {
 			throw new RuntimeException("イベント情報の登録に失敗しました",e);
 		}
@@ -99,15 +109,17 @@ public class EventRegistServiceImpl implements EventRegistService{
 	}
 
 
-	//URLを生成する
-	public String getEventUrl(String eventRondomNumber) {
+	/**
+	 * イベントURLを生成する
+	 */
+	public String getEventUrl(Map<String, Object> result) {
 		InetAddress localHost = null;
 		try {
 			localHost = InetAddress.getLocalHost();
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			throw new RuntimeException("URLの生成に失敗しました",e);
 		}
-		String eventUrl = localHost.getHostAddress() + ":8080/event/answerRegist?Url=" + eventRondomNumber ;
+		String eventUrl = localHost.getHostAddress() + ":8080/event/answerRegist?Url=" + result.get("EVENT_URL");
 
 		return eventUrl;
 	}

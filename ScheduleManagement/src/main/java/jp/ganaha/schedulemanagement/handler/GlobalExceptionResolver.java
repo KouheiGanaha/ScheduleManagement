@@ -12,7 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Component
 public class GlobalExceptionResolver implements HandlerExceptionResolver{
 
-	//エラー情報を取得
+	/**
+	 * エラー情報を取得
+	 */
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
 			Exception ex) {

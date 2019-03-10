@@ -1,26 +1,40 @@
 package jp.ganaha.schedulemanagement.form;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 public class EventRegistForm {
 
-	/**イベントID**/
+	/**
+	 * イベントID
+	 */
 	@NotEmpty
 	private String eventId;
 
-	/**イベント名**/
+	/**
+	 * イベント名
+	 */
 	@NotEmpty
+	@Size(max=255)
 	private String eventName;
 
-	/**イベントメモ**/
+	/**
+	 *イベントメモ
+	 **/
+	@Size(max=1024)
 	private String eventMemo;
 
-	/**イベントURL**/
+	/**
+	 * イベントURL
+	 */
 	@NotEmpty
 	private String eventUrl;
 
-	/**候補日**/
+	/**
+	 * 候補日
+	 */
 	@NotEmpty
+	@Size(max=1024)
 	private String eventDate;
 
 	public String getEventId() {

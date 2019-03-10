@@ -19,7 +19,11 @@ public class EventRegistController {
 
 	@Autowired EventRegistService eventRegistService;
 
-	//初期表示画面
+	/**
+	 * 初期表示画面
+	 * @param model
+	 * @return イベント登録画面
+	 */
 	@RequestMapping({"/","/event/eventRegist"})
 	public String index(Model model) {
 		model.addAttribute("eventRegistForm", new EventRegistForm());
@@ -27,7 +31,13 @@ public class EventRegistController {
 	}
 
 
-	//イベント登録処理
+	/**
+	 * イベント登録処理
+	 * @param eventRegistForm
+	 * @param bindingResult
+	 * @param model
+	 * @return イベントURL
+	 */
 	@PostMapping("/event/create")
 	public String create(@ModelAttribute @Validated EventRegistForm eventRegistForm, BindingResult bindingResult, Model model) {
 		FieldError eventNameError = bindingResult.getFieldError("eventName");
@@ -36,7 +46,7 @@ public class EventRegistController {
 
 		if(eventNameError != null || eventMemoError != null || eventDateError != null) {
 			if(eventNameError != null) {
-				model.addAttribute("eventNameError", "イベント名は文字以上255字以内で入力して下さい");
+				model.addAttribute("eventNameError", "イベント名は255字以内で入力して下さい");
 			}
 
 			if(eventMemoError != null) {
@@ -54,19 +64,17 @@ public class EventRegistController {
 		//候補日の分割
 		String[] eventDate = eventRegistService.getEventDate(eventRegistForm);
 
-		//イベントURL生成
-		String eventRondomNumber = eventRegistService.getRondom();
+		if(eventDate == null) {
+			model.addAttribute("eventDateError", "候補日はyyyy/MM/dd HH:mm形式で入力してください");
+			return "event/eventRegist";
+		}
 
 		//イベント情報登録
-		Map<String, Object> result = eventRegistService.create(eventRegistForm, eventRondomNumber, eventDate);
-		if(result == null) {
-			model.addAttribute("eventDateError", "候補日はyyyy/MM//dd HH:mm形式で入力してください");
-			return "event/create";
-		}
+		Map<String, Object> result = eventRegistService.create(eventRegistForm,eventDate);
 		model.addAttribute("map", result);
 
 		//イベントURL生成
-		String eventUrl = eventRegistService.getEventUrl(eventRondomNumber);
+		String eventUrl = eventRegistService.getEventUrl(result);
 		eventRegistForm.setEventUrl(eventUrl);
 		model.addAttribute("eventUrl", eventUrl);
 
@@ -74,7 +82,11 @@ public class EventRegistController {
 
 	}
 
-	//出欠回答画面
+	/**
+	 * 初期表示画面
+	 * @param model
+	 * @return 出欠回答画面
+	 */
 	@RequestMapping("event/answerRegist")
 	public String eventResult(Model model) {
 		return "event/answerRegist";

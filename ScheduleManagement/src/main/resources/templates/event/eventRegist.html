@@ -17,17 +17,26 @@
 						<H2>イベント登録</H2>
 
 						<p th:text="${eventNameError}" style="color: red" />
+						<p th:text="${eventMemoError}" style="color: red" />
 						<p th:text="${eventDateError}" style="color: red" />
 
-						<div class="col-9 bg-gradient-light">
+					<div class="col-9 bg-gradient-light">
 						<div class="form-group">
+						<label>イベント名</label>
 						<input type="text" class="form-control" th:field="*{eventName}" placeholder="イベント名" />
 						</div>
 					</div>
 
-					<div class="col-12 bg-gradient-light">
-						<textarea type="text" th:field="*{eventMemo}" placeholder="イベントメモ"></textarea>
-						<textarea type="text" th:field="*{eventDate}" placeholder="候補日"></textarea>
+					<div class="form-group row">
+						<div class="col-6 bg-gradient-light">
+							<label>イベントメモ</label>
+							<textarea type="text" th:field="*{eventMemo}" placeholder="イベントメモ" class="form-control"></textarea>
+						</div>
+
+						<div class="col-6 bg-gradient-light">
+							<label>候補日</label>
+							<textarea type="text" th:field="*{eventDate}" placeholder="候補日" class="form-control"></textarea>
+						</div>
 					</div>
 
 					<div class="col-4 bg-gradient-light">
