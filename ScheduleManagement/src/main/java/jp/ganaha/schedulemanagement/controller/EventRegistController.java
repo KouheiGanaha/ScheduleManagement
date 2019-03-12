@@ -82,15 +82,7 @@ public class EventRegistController {
 
 	}
 
-	/**
-	 * 初期表示画面
-	 * @param model
-	 * @return 出欠回答画面
-	 */
-	@RequestMapping("event/answerRegist")
-	public String eventResult(Model model) {
-		return "event/answerRegist";
-	}
+
 
 }
 
