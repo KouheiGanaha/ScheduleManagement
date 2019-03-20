@@ -38,7 +38,7 @@ public class EventRegistController {
 	 * @param model
 	 * @return イベントURL
 	 */
-	@PostMapping("/event/create")
+	@PostMapping("/event/eventResult")
 	public String create(@ModelAttribute @Validated EventRegistForm eventRegistForm, BindingResult bindingResult, Model model) {
 		FieldError eventNameError = bindingResult.getFieldError("eventName");
 		FieldError eventMemoError = bindingResult.getFieldError("eventMemo");
@@ -81,8 +81,6 @@ public class EventRegistController {
 		return "event/eventResult";
 
 	}
-
-
 
 }
 

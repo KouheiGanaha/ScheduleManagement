@@ -1,17 +1,13 @@
 package jp.ganaha.schedulemanagement.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jp.ganaha.schedulemanagement.form.AnswerRegistForm;
 import jp.ganaha.schedulemanagement.service.AnswerRegistService;
@@ -26,19 +22,21 @@ public class AnswerRegistController {
 	 * @param model
 	 * @return 出欠回答画面
 	 */
-	@RequestMapping(value="event/answerRegist/{eventUrl}",method=RequestMethod.GET)
-	public String index(@PathVariable("eventUrl") String eventUrl, Model model) {
-		Map<String, Object> eventData = answerRegistService.getEventData(eventUrl);
+	@RequestMapping("/event/answerRegist")
+	public String answerRegistIndex(@RequestParam("Url") String Url, Model model) {
+
+		System.out.println(Url);
+		Map<String, Object> eventData = answerRegistService.getEventData(Url);
 		model.addAttribute("eventData",eventData);
+
+		List<Map<String,Object>> eventDate = answerRegistService.getEventDate(eventData);
+		model.addAttribute("eventDate",eventDate);
+
+		Map<String,String> getSelectItems = answerRegistService.getSelectItems();
+		model.addAttribute("selectItems",getSelectItems);
+
 		model.addAttribute("answerRegistForm", new AnswerRegistForm());
 		return "event/answerRegist";
 	}
-
-	@PostMapping("/event/create")
-	public String create(@ModelAttribute @Validated AnswerRegistForm answerRegistForm, BindingResult bindingResult, Model model) {
-
-		return "event/AnswerAttend";
-	}
-
 
 }

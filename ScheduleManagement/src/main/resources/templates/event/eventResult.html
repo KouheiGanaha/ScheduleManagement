@@ -8,8 +8,10 @@
 <body>
 	<form th:object="${eventRegistForm}">
 	<H2>イベント登録 結果</H2>
+
     <p>イベントURL<input type="text" name="eventUrl" th:value="${eventUrl}"/></p>
-	<a href="/event/answerRegist">出欠回答</a>
+
+	<a href="/event/answerRegist" th:href="@{/event/answerRegist(Url=${map.get('EVENT_URL')})}">出欠回答</a>
 	</form>
 </body>
 </html>
