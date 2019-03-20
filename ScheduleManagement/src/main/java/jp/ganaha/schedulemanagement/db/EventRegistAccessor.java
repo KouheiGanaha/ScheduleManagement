@@ -86,7 +86,7 @@ public class EventRegistAccessor {
 		return row;
 	}
 
-
+//answerAttend用　まだクラスを作成していない為ここに置いています。
 	/**
 	 * イベントの候補日を取得＠AnswerAttend用
 	 * @return
