@@ -23,7 +23,7 @@
 
 						<tr th:each="eventDate:${eventDate}">
 							<p><td th:text= "${eventDate.get('EVENT_DATE')}">
-							<div class="radio-inline" th:each="selectItems:${selectItems}">
+							<div th:each="selectItems:${selectItems}">
 							<input type = radio  th:value="${selectItems.key}" name="answer"th:text="${selectItems.value}"/>
 							</div>
 							</p>
