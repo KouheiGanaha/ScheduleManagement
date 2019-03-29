@@ -6,6 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -24,19 +27,50 @@ public class AnswerRegistController {
 	 */
 	@RequestMapping("/event/answerRegist")
 	public String answerRegistIndex(@RequestParam("Url") String Url, Model model) {
+		model.addAttribute("answerRegistForm", new AnswerRegistForm());
 
-		System.out.println(Url);
+		/**
+		 * イベント情報取得
+		 */
 		Map<String, Object> eventData = answerRegistService.getEventData(Url);
+		if(eventData.equals(null)) {
+			//ページはありませんに直す
+			return "error/404";
+		}
 		model.addAttribute("eventData",eventData);
 
+
+		/**
+		 * イベントの候補日取得
+		 */
 		List<Map<String,Object>> eventDate = answerRegistService.getEventDate(eventData);
 		model.addAttribute("eventDate",eventDate);
 
+
+		/**
+		 * 回答の選択肢取得
+		 */
 		Map<String,String> getSelectItems = answerRegistService.getSelectItems();
 		model.addAttribute("selectItems",getSelectItems);
 
-		model.addAttribute("answerRegistForm", new AnswerRegistForm());
 		return "event/answerRegist";
 	}
+
+	/**
+	 * 回答を登録
+	 * @param answerRegistForm
+	 * @param bindingResult
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/event/answerAttend")
+	public String create(@ModelAttribute @Validated AnswerRegistForm answerRegistForm, BindingResult bindingResult, Model model) {
+		answerRegistService.create(answerRegistForm);
+
+		return "event/answerAttend";
+
+
+	}
+
 
 }

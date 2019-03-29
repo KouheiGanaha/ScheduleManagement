@@ -2,6 +2,8 @@ package jp.ganaha.schedulemanagement.form;
 
 public class AnswerRegistForm {
 
+	private String eventId;
+
 	private String eventName;
 
 	private String eventMemo;
@@ -13,6 +15,14 @@ public class AnswerRegistForm {
 	private String answerName;
 
 	private String comment;
+
+	public String getEventId() {
+		return eventId;
+	}
+
+	public void setEventId(String eventId) {
+		this.eventId = eventId;
+	}
 
 	public String getEventName() {
 		return eventName;
