@@ -15,26 +15,20 @@
 				<div class="row">
 					<div class="bg-gradient-light text-dark">
 						<H2>出欠回答</H2>
+						<span th:field="*{eventId}" th:value="${eventData.get('EVENT_ID')}"></span>
+
 						<p>イベント名:<span th:text= "${eventData.get('EVENT_NAME')}"></span></p>
 						<p>イベントメモ:<span th:text= "${eventData.get('EVENT_MEMO')}"></span></p>
 						<p>氏名：<input type="text" th:field="*{answerName}"/></p>
 
 						<tr th:each="eventDate:${eventDate}">
-
-						<p><td th:text= "${eventDate.get('EVENT_DATE')}">
-
-						<div class="btn-group btn-group-toggle" data-toggle="buttons">
-						<label class="btn btn-secondary active"><input type="radio" name="options" id="option1" autocomplete="off" checked> ○
-  						</label>
-
-  						<label class="btn btn-secondary"><input type="radio" name="options" id="option2" autocomplete="off"> △
-  						</label>
-
-  						<label class="btn btn-secondary"><input type="radio" name="options" id="option3" autocomplete="off"> ×
-  						</label>
-						</div>
+							<p><td th:text= "${eventDate.get('EVENT_DATE')}">
+							<div class="radio-inline" th:each="selectItems:${selectItems}">
+							<input type = radio  th:value="${selectItems.key}" name="answer"th:text="${selectItems.value}"/>
+							<input type = radio  th:value="${selectItems.key}" name="aner"th:text="${selectItems.value}"/>
+							</div>
+							</p>
 						</td>
-						</p>
 						</tr>
 
 						<p>コメント：<input type="text" th:field="*{comment}" /></p>
