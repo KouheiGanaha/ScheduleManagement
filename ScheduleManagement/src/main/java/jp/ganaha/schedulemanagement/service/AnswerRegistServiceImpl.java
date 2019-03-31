@@ -54,25 +54,53 @@ public class AnswerRegistServiceImpl implements AnswerRegistService{
 		return selectMap;
 	}
 
+
 	/**
-	 * イベント情報を登録する
+	 * イベント情報の登録
 	 */
 	@Override
 	public void create(AnswerRegistForm answerRegistForm){
 
 		/**
-		 * イベントID
+		 * イベントID取得
 		 */
-		String eventId ="389";
+		String eventId = answerRegistForm.getEventId();
 
-		//回答をDBに登録
+		/**
+		 * 候補日情報取得
+		 */
+		List<Map<String, Object>> eventDateInfo = answerRegistAccessor.getEventDate(eventId);
+
+		/**
+		 * 回答テーブル登録
+		 */
 		try {
-			answerRegistAccessor.insertUserAnswer(eventId, answerRegistForm.getAnswer(), answerRegistForm.getComment());
+			answerRegistAccessor.insertUserAnswer(eventId, answerRegistForm.getAnswerName(), answerRegistForm.getComment());
 		}catch(RuntimeException e) {
-			throw new RuntimeException("イベント情報の登録に失敗しました",e);
+			throw new RuntimeException("回答者の登録に失敗しました",e);
 		}
 
+		/**
+		 * 回答取得
+		 */
+		String answerAttendance[] = answerRegistForm.getAnswerAttendance();
 
+		/**
+		 * 回答情報テーブル登録
+		 */
+
+		int i = 0;
+		for(Map<String, Object> eventDateList:eventDateInfo) {
+			String eventDate = eventDateList.get("EVENT_DATE").toString();
+
+			try {
+				answerRegistAccessor.insertAnswerAttend(eventId, answerRegistForm.getAnswerName(),eventDate,answerAttendance[i]);
+			}catch(RuntimeException e) {
+				throw new RuntimeException("回答情報の登録に失敗しました",e);
+			}
+			i++;
+
+		}
 	}
 
 }

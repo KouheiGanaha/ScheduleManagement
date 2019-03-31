@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import jp.ganaha.schedulemanagement.service.AnswerRegistService;
 public class AnswerRegistController {
 
 	@Autowired AnswerRegistService answerRegistService;
+
 
 	/**
 	 * 初期表示画面
@@ -39,13 +41,11 @@ public class AnswerRegistController {
 		}
 		model.addAttribute("eventData",eventData);
 
-
 		/**
 		 * イベントの候補日取得
 		 */
 		List<Map<String,Object>> eventDate = answerRegistService.getEventDate(eventData);
 		model.addAttribute("eventDate",eventDate);
-
 
 		/**
 		 * 回答の選択肢取得
@@ -65,12 +65,24 @@ public class AnswerRegistController {
 	 */
 	@RequestMapping("/event/answerAttend")
 	public String create(@ModelAttribute @Validated AnswerRegistForm answerRegistForm, BindingResult bindingResult, Model model) {
+
+		FieldError answerNameError = bindingResult.getFieldError("answerName");
+		FieldError commentError = bindingResult.getFieldError("comment");
+
+		if(answerNameError != null || commentError != null) {
+			if(answerNameError != null) {
+				model.addAttribute("answerNameError", "氏名は255字以内で入力して下さい");
+			}
+
+			if(commentError != null) {
+				model.addAttribute("commentError", "コメントは255字以内で入力して下さい");
+			}
+
+			return "error";
+		}
+
 		answerRegistService.create(answerRegistForm);
 
 		return "event/answerAttend";
-
-
 	}
-
-
 }

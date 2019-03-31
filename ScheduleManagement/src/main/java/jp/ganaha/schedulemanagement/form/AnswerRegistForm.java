@@ -1,20 +1,21 @@
 package jp.ganaha.schedulemanagement.form;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class AnswerRegistForm {
 
 	private String eventId;
 
-	private String eventName;
-
-	private String eventMemo;
-
-	private String eventDate;
-
-	private String answer;
-
+	@NotEmpty
+	@Size(max=255)
 	private String answerName;
 
+	@Size(max=255)
 	private String comment;
+
+	@NotEmpty
+	public String answerAttendance[];
 
 	public String getEventId() {
 		return eventId;
@@ -22,38 +23,6 @@ public class AnswerRegistForm {
 
 	public void setEventId(String eventId) {
 		this.eventId = eventId;
-	}
-
-	public String getEventName() {
-		return eventName;
-	}
-
-	public void setEventName(String eventName) {
-		this.eventName = eventName;
-	}
-
-	public String getEventMemo() {
-		return eventMemo;
-	}
-
-	public void setEventMemo(String eventMemo) {
-		this.eventMemo = eventMemo;
-	}
-
-	public String getEventDate() {
-		return eventDate;
-	}
-
-	public void setEventDate(String eventDate) {
-		this.eventDate = eventDate;
-	}
-
-	public String getAnswer() {
-		return answer;
-	}
-
-	public void setAnswer(String answer) {
-		this.answer = answer;
 	}
 
 	public String getAnswerName() {
@@ -71,5 +40,15 @@ public class AnswerRegistForm {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+
+	public String[] getAnswerAttendance() {
+		return answerAttendance;
+	}
+
+	public void setAnswerAttendance(String[] answerAttendance) {
+		this.answerAttendance = answerAttendance;
+	}
+
+
 
 }

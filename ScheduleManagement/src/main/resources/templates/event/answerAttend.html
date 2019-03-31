@@ -1,10 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>出欠参照画面</title>
+    <meta charset="UTF-8">
 </head>
 <body>
+<p>製造中...</p>
+    <table border="1">
+        <tr>
+        <th>日程</th>
+        <th>○</th>
+        <th>△</th>
+        <th>×</th>
+        <th>氏名</th>
+        </tr>
 
+        <tr th:each="word : ${list}">
+	        <td th:text="${word.get('EVENT_DATE')}"></td>
+	        <td th:text="${answerAttendance.get('answerAttenDanceMaru').get('ANSWER_COUNT')}"></td>
+	        <td th:text="${answerAttendance.get('answerAttenDanceSankaku').get('ANSWER_COUNT')}"></td>
+	        <td th:text="${answerAttendance.get('answerAttenDanceBatu').get('ANSWER_COUNT')}"></td>
+	        <td th:text="${answerAttendance.get('answerUserName')}"></td>
+        </tr>
+    </table>
 </body>
 </html>

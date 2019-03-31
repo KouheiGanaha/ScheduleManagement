@@ -44,9 +44,9 @@ public class AnswerRegistAccessor {
 	/**
 	 * 回答情報を登録
 	 */
-	public int insertAnswerAttend(String answerAttendNo,String eventId, String answerUserName,String answerEventDate,String answerAttendance) {
+	public int insertAnswerAttend(String eventId, String answerUserName,String answerEventDate,String answerAttendance) {
 		int resultCount = jdbcTemplate.update("insert into TB_TRN_ANSWER_ATTEND(ANSWER_ATTEND_NO,EVENT_ID,ANSWER_USER_NAME, ANSWER_EVENT_DATE,ANSWER_ATTENDANCE)"
-				+ "values (?,?,?,?,?)",answerAttendNo,eventId,answerUserName,answerEventDate,answerAttendance);
+				+ "values (ANSWER_ATTEND_NO.NEXTVAL,?,?,?,?)",eventId,answerUserName,answerEventDate,answerAttendance);
 		return resultCount;
 	}
 
