@@ -5139,3 +5139,27 @@ Invalid value "1" for parameter "parameterIndex" [90008-197]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.lang.Thread.run(Thread.java:748)
+2019-03-30 15:12:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: 列 "ANSWER_ATTENDANCE CHAR(1) COMMENT STRINGDECODE('\u56de\u7b54')" の値が長過ぎます: "'on' (2)"
+Value too long for column "ANSWER_ATTENDANCE CHAR(1) COMMENT STRINGDECODE('\u56de\u7b54')": "'on' (2)"; SQL statement:
+insert into TB_TRN_ANSWER_ATTEND(ANSWER_ATTEND_NO,EVENT_ID,ANSWER_USER_NAME, ANSWER_EVENT_DATE,ANSWER_ATTENDANCE)values (?,?,?,?,?) [22001-197]
+2019-03-30 15:14:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: 列 "ANSWER_ATTENDANCE CHAR(1) COMMENT STRINGDECODE('\u56de\u7b54')" の値が長過ぎます: "'on' (2)"
+Value too long for column "ANSWER_ATTENDANCE CHAR(1) COMMENT STRINGDECODE('\u56de\u7b54')": "'on' (2)"; SQL statement:
+insert into TB_TRN_ANSWER_ATTEND(ANSWER_ATTEND_NO,EVENT_ID,ANSWER_USER_NAME, ANSWER_EVENT_DATE,ANSWER_ATTENDANCE)values (?,?,?,?,?) [22001-197]
+2019-03-30 15:18:18 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: 列 "ANSWER_ATTENDANCE CHAR(1) COMMENT STRINGDECODE('\u56de\u7b54')" の値が長過ぎます: "'on' (2)"
+Value too long for column "ANSWER_ATTENDANCE CHAR(1) COMMENT STRINGDECODE('\u56de\u7b54')": "'on' (2)"; SQL statement:
+insert into TB_TRN_ANSWER_ATTEND(ANSWER_ATTEND_NO,EVENT_ID,ANSWER_USER_NAME, ANSWER_EVENT_DATE,ANSWER_ATTENDANCE)values (?,?,?,?,?) [22001-197]
+2019-03-30 15:19:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: 列 "ANSWER_ATTENDANCE CHAR(1) COMMENT STRINGDECODE('\u56de\u7b54')" の値が長過ぎます: "'on' (2)"
+Value too long for column "ANSWER_ATTENDANCE CHAR(1) COMMENT STRINGDECODE('\u56de\u7b54')": "'on' (2)"; SQL statement:
+insert into TB_TRN_ANSWER_ATTEND(ANSWER_ATTEND_NO,EVENT_ID,ANSWER_USER_NAME, ANSWER_EVENT_DATE,ANSWER_ATTENDANCE)values (?,?,?,?,?) [22001-197]
+2019-03-30 15:21:15 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: 列 "ANSWER_ATTENDANCE CHAR(1) COMMENT STRINGDECODE('\u56de\u7b54')" の値が長過ぎます: "'on' (2)"
+Value too long for column "ANSWER_ATTENDANCE CHAR(1) COMMENT STRINGDECODE('\u56de\u7b54')": "'on' (2)"; SQL statement:
+insert into TB_TRN_ANSWER_ATTEND(ANSWER_ATTEND_NO,EVENT_ID,ANSWER_USER_NAME, ANSWER_EVENT_DATE,ANSWER_ATTENDANCE)values (?,?,?,?,?) [22001-197]
+2019-03-31 11:15:41 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: SQLステートメントに文法エラーがあります "CREATE SEQENCE[*] ANSWER_ATTEND_NO INCREMENT BY 1 START WITH 1 "; 期待されるステートメント "OR, FORCE, VIEW, ALIAS, SEQUENCE, USER, TRIGGER, ROLE, SCHEMA, CONSTANT, DOMAIN, TYPE, DATATYPE, AGGREGATE, LINKED, MEMORY, CACHED, LOCAL, GLOBAL, TEMP, TEMPORARY, TABLE, SYNONYM, PRIMARY, UNIQUE, HASH, SPATIAL, INDEX"
+Syntax error in SQL statement "CREATE SEQENCE[*] ANSWER_ATTEND_NO INCREMENT BY 1 START WITH 1 "; expected "OR, FORCE, VIEW, ALIAS, SEQUENCE, USER, TRIGGER, ROLE, SCHEMA, CONSTANT, DOMAIN, TYPE, DATATYPE, AGGREGATE, LINKED, MEMORY, CACHED, LOCAL, GLOBAL, TEMP, TEMPORARY, TABLE, SYNONYM, PRIMARY, UNIQUE, HASH, SPATIAL, INDEX"; SQL statement:
+create seqence ANSWER_ATTEND_NO INCREMENT BY 1 START WITH 1 [42001-197]
