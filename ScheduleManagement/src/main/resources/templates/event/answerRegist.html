@@ -17,7 +17,9 @@
 						<H2>出欠回答</H2>
 
 						<input type="hidden" name="eventId" th:value="${eventData.get('EVENT_ID')}">
-
+						<input type="hidden" name="eventUrl" th:value="${eventData.get('EVENT_URL')}">
+						<input type="hidden" name="eventName" th:value="${eventData.get('EVENT_NAME')}">
+						<input type="hidden" name="eventMemo" th:value="${eventData.get('EVENT_MEMO')}">
 
 						<p>イベント名:<span th:text= "${eventData.get('EVENT_NAME')}"></span></p>
 						<p>イベントメモ:<span th:text= "${eventData.get('EVENT_MEMO')}"></span></p>

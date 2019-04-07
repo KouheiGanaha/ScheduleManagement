@@ -15,7 +15,9 @@ public class AnswerRegistForm {
 	private String comment;
 
 	@NotEmpty
-	public String answerAttendance[];
+	private String answerAttendance[];
+
+	private String eventUrl;
 
 	public String getEventId() {
 		return eventId;
@@ -47,6 +49,14 @@ public class AnswerRegistForm {
 
 	public void setAnswerAttendance(String[] answerAttendance) {
 		this.answerAttendance = answerAttendance;
+	}
+
+	public String getEventUrl() {
+		return eventUrl;
+	}
+
+	public void setEventUrl(String eventUrl) {
+		this.eventUrl = eventUrl;
 	}
 
 

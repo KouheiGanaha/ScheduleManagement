@@ -14,13 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jp.ganaha.schedulemanagement.form.AnswerRegistForm;
+import jp.ganaha.schedulemanagement.form.answerAttendForm;
+import jp.ganaha.schedulemanagement.service.AnswerAttendService;
 import jp.ganaha.schedulemanagement.service.AnswerRegistService;
 
 @Controller
 public class AnswerRegistController {
 
 	@Autowired AnswerRegistService answerRegistService;
-
+	@Autowired AnswerAttendService answerAttendService;
 
 	/**
 	 * 初期表示画面
@@ -30,6 +32,7 @@ public class AnswerRegistController {
 	@RequestMapping("/event/answerRegist")
 	public String answerRegistIndex(@RequestParam("Url") String Url, Model model) {
 		model.addAttribute("answerRegistForm", new AnswerRegistForm());
+		model.addAttribute("Url", Url);
 
 		/**
 		 * イベント情報取得
@@ -64,7 +67,7 @@ public class AnswerRegistController {
 	 * @return
 	 */
 	@RequestMapping("/event/answerAttend")
-	public String create(@ModelAttribute @Validated AnswerRegistForm answerRegistForm, BindingResult bindingResult, Model model) {
+	public String create(@ModelAttribute @Validated AnswerRegistForm answerRegistForm, answerAttendForm answerAttendForm,BindingResult bindingResult, Model model) {
 
 		FieldError answerNameError = bindingResult.getFieldError("answerName");
 		FieldError commentError = bindingResult.getFieldError("comment");
@@ -80,8 +83,38 @@ public class AnswerRegistController {
 
 			return "error";
 		}
-
 		answerRegistService.create(answerRegistForm);
+
+
+		//-------------------以下、出欠参照画面の処理---------------------//
+
+
+		//イベント情報取得メソッドの引数に渡す為のイベントURLランダム値を取得
+		String eventUrl = answerAttendForm.getEventUrl();
+
+		//イベント情報を取得
+		Map<String,Object> eventData = answerAttendService.getEventData(eventUrl);
+		model.addAttribute("eventData", eventData);
+		String eventId = eventData.get("EVENT_ID").toString();
+
+		//候補日を取得
+		List<Map<String,Object>> eventDateList = answerAttendService.getEventDate(eventId);
+		model.addAttribute("list",eventDateList);
+
+		//集計結果を取得
+		Map<String, Map<String, Object>> answerAttendance = answerAttendService.getAnswerAttendance(answerAttendForm, eventDateList);
+		model.addAttribute("answerAttendance",answerAttendance);
+
+		//氏名を取得
+		List<Map<String,Object>> answerUserName = answerAttendService.getAnswerUserName(answerAttendForm);
+		model.addAttribute("userName",answerUserName);
+
+		//回答内容を取得
+		List<Map<String, Object>> answer = answerAttendService.getAnswer(answerAttendForm, eventDateList);
+		model.addAttribute("answer",answer);
+
+		Map<String,Map<String,Object>> answer2 = answerAttendService.getAnswer2(answerAttendForm, eventDateList);
+		model.addAttribute("answer2",answer2);
 
 		return "event/answerAttend";
 	}

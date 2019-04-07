@@ -13,6 +13,7 @@ public class AnswerRegistAccessor {
 
 	@Autowired JdbcTemplate jdbcTemplate;
 
+
 	/**
 	 * イベント情報を取得
 	 */

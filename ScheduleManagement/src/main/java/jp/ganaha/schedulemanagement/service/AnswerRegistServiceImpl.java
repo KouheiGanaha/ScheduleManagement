@@ -30,7 +30,7 @@ public class AnswerRegistServiceImpl implements AnswerRegistService{
 			return null;
 		}
 
-	return eventData;
+		return eventData;
 	}
 
 	/**
@@ -61,34 +61,25 @@ public class AnswerRegistServiceImpl implements AnswerRegistService{
 	@Override
 	public void create(AnswerRegistForm answerRegistForm){
 
-		/**
-		 * イベントID取得
-		 */
+		System.out.println(answerRegistForm.getEventUrl());
+
+		//イベントID取得
 		String eventId = answerRegistForm.getEventId();
 
-		/**
-		 * 候補日情報取得
-		 */
+		//候補日情報取得
 		List<Map<String, Object>> eventDateInfo = answerRegistAccessor.getEventDate(eventId);
 
-		/**
-		 * 回答テーブル登録
-		 */
+		//回答テーブル登録
 		try {
 			answerRegistAccessor.insertUserAnswer(eventId, answerRegistForm.getAnswerName(), answerRegistForm.getComment());
 		}catch(RuntimeException e) {
 			throw new RuntimeException("回答者の登録に失敗しました",e);
 		}
 
-		/**
-		 * 回答取得
-		 */
+		//回答取得
 		String answerAttendance[] = answerRegistForm.getAnswerAttendance();
 
-		/**
-		 * 回答情報テーブル登録
-		 */
-
+		//回答情報テーブル登録
 		int i = 0;
 		for(Map<String, Object> eventDateList:eventDateInfo) {
 			String eventDate = eventDateList.get("EVENT_DATE").toString();
@@ -99,7 +90,6 @@ public class AnswerRegistServiceImpl implements AnswerRegistService{
 				throw new RuntimeException("回答情報の登録に失敗しました",e);
 			}
 			i++;
-
 		}
 	}
 
