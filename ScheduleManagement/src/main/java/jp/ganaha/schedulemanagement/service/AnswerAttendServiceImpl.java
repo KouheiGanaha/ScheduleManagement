@@ -1,5 +1,6 @@
 package jp.ganaha.schedulemanagement.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,6 +128,7 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 	/**
 	 * 回答内容取得(仮)2
 	 */
+	@Override
 	public Map<String,Map<String,Object>> getAnswer2(answerAttendForm answerAttendForm, List<Map<String,Object>> eventDateList){
 
 		String eventId = answerAttendForm.getEventId();
@@ -141,6 +143,7 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 			for(Map<String, Object> name:nameList) {
 				//氏名を取得
 				String userName = name.get("ANSWER_USER_NAME").toString();
+
 				//候補日をキーにしたMapを生成
 				answerInfoMap.put(eventDate, new HashMap<String, Object>());
 
@@ -159,5 +162,38 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 		return answerInfoMap;
 	}
 
+
+
+	public Map<String,List<String>> getAnswer3(answerAttendForm answerAttendForm, List<Map<String,Object>> eventDateList){
+
+		String eventId = answerAttendForm.getEventId();
+
+		//氏名を取得
+		List<Map<String,Object>> nameList = answerAttendAccessor.getAnswerUserName(eventId);
+
+
+		Map<String,List<String>> answerInfoMap = new HashMap<>();
+		List<String> list = new ArrayList<>();
+
+
+		//候補日で繰り返し
+		for(Map<String,Object> eventDateMap : eventDateList) {
+			String eventDate = eventDateMap.get("EVENT_DATE").toString();
+
+			for(Map<String, Object> name:nameList) {
+				//氏名を取得
+				String userName = name.get("ANSWER_USER_NAME").toString();
+
+				//候補日と氏名を指定して回答を取得
+				Map<String,Object> Answer = answerAttendAccessor.getAnswerAttendance(eventDate, userName);
+				String answerAttendance= Answer.get("ANSWER_ATTENDANCE").toString();
+				list.add(answerAttendance);
+
+				answerInfoMap.put(userName, list);
+
+			}
+		}
+		return answerInfoMap;
+	}
 }
 

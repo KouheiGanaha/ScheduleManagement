@@ -17,4 +17,6 @@ public interface AnswerAttendService {
 	public List<Map<String, Object>> getAnswer(answerAttendForm answerAttendForm, List<Map<String,Object>> eventDateList);
 
 	public Map<String,Map<String,Object>> getAnswer2(answerAttendForm answerAttendForm, List<Map<String,Object>> eventDateList);
+
+	public Map<String,List<String>> getAnswer3(answerAttendForm answerAttendForm, List<Map<String,Object>> eventDateList);
 }

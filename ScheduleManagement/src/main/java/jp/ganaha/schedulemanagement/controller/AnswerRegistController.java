@@ -116,6 +116,9 @@ public class AnswerRegistController {
 		Map<String,Map<String,Object>> answer2 = answerAttendService.getAnswer2(answerAttendForm, eventDateList);
 		model.addAttribute("answer2",answer2);
 
+		Map<String,List<String>> answer3 = answerAttendService.getAnswer3(answerAttendForm, eventDateList);
+		model.addAttribute("answer3",answer3);
+
 		return "event/answerAttend";
 	}
 }
