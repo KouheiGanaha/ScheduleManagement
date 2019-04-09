@@ -105,19 +105,14 @@ public class AnswerRegistController {
 		Map<String, Map<String, Object>> answerAttendance = answerAttendService.getAnswerAttendance(answerAttendForm, eventDateList);
 		model.addAttribute("answerAttendance",answerAttendance);
 
-		//氏名を取得
-		List<Map<String,Object>> answerUserName = answerAttendService.getAnswerUserName(answerAttendForm);
-		model.addAttribute("userName",answerUserName);
 
-		//回答内容を取得
-		List<Map<String, Object>> answer = answerAttendService.getAnswer(answerAttendForm, eventDateList);
-		model.addAttribute("answer",answer);
+		//回答結果のヘッダーを取得
+		List<String> headerList = answerAttendService.getHeaderList(eventDateList);
+		model.addAttribute("header", headerList);
 
-		Map<String,Map<String,Object>> answer2 = answerAttendService.getAnswer2(answerAttendForm, eventDateList);
-		model.addAttribute("answer2",answer2);
-
-		Map<String,List<String>> answer3 = answerAttendService.getAnswer3(answerAttendForm, eventDateList);
-		model.addAttribute("answer3",answer3);
+		//回答結果内容を取得
+		List<List<String>> answerList = answerAttendService.getAnswerList(answerAttendForm, eventDateList);
+		model.addAttribute("answerList", answerList);
 
 		return "event/answerAttend";
 	}

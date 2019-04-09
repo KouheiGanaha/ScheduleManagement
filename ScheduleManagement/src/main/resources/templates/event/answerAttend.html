@@ -38,11 +38,7 @@
 
     <table border="2" class="list">
         <tr>
-        <th th:each="userName:${userName}" th:text="${userName.get('ANSWER_USER_NAME')}"></th>
-        </tr>
-
-        <tr th:each="answer : ${answer3}">
-        <td th:each="answer : ${answer3.get('ANSWER_ATTENDANCE')}"></td>
+        <th th:each="header:${header}" th:text="${header}"></th>
         </tr>
 
     </table>

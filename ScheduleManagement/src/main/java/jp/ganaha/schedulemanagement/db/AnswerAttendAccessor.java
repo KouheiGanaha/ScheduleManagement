@@ -35,8 +35,8 @@ public class AnswerAttendAccessor {
 		 * @param eventDate
 		 * @return 出欠集計結果
 		 */
-		public Map<String, Object> getAnswerCountMaru(String eventDate) {
-			Map<String,Object> answerCount = jdbcTemplate.queryForMap("select count(*) AS ANSWER_COUNT from TB_TRN_ANSWER_ATTEND where ANSWER_ATTENDANCE = '1' and ANSWER_EVENT_DATE = ?",eventDate);
+		public Map<String, Object> getAnswerCountMaru(String eventDate, String eventId) {
+			Map<String,Object> answerCount = jdbcTemplate.queryForMap("select count(*) AS ANSWER_COUNT from TB_TRN_ANSWER_ATTEND where ANSWER_ATTENDANCE = '1' and ANSWER_EVENT_DATE = ? and EVENT_ID = ?", eventDate, eventId);
 			return answerCount;
 		}
 
@@ -45,8 +45,8 @@ public class AnswerAttendAccessor {
 		 * @param eventDate
 		 * @return 出欠集計結果
 		 */
-		public Map<String, Object> getAnswerCountSankaku(String eventDate) {
-			Map<String,Object> answerCount = jdbcTemplate.queryForMap("select count(*) AS ANSWER_COUNT from TB_TRN_ANSWER_ATTEND where ANSWER_ATTENDANCE = '2' and ANSWER_EVENT_DATE = ?",eventDate);
+		public Map<String, Object> getAnswerCountSankaku(String eventDate, String eventId) {
+			Map<String,Object> answerCount = jdbcTemplate.queryForMap("select count(*) AS ANSWER_COUNT from TB_TRN_ANSWER_ATTEND where ANSWER_ATTENDANCE = '2' and ANSWER_EVENT_DATE = ? and EVENT_ID = ?",eventDate, eventId);
 			return answerCount;
 		}
 
@@ -55,8 +55,8 @@ public class AnswerAttendAccessor {
 		 * @param eventDate
 		 * @return 出欠集計結果
 		 */
-		public Map<String, Object> getAnswerCountBatu(String eventDate) {
-			Map<String,Object> answerCount = jdbcTemplate.queryForMap("select count(*) AS ANSWER_COUNT from TB_TRN_ANSWER_ATTEND where ANSWER_ATTENDANCE = '3' and ANSWER_EVENT_DATE = ?",eventDate);
+		public Map<String, Object> getAnswerCountBatu(String eventDate, String eventId) {
+			Map<String,Object> answerCount = jdbcTemplate.queryForMap("select count(*) AS ANSWER_COUNT from TB_TRN_ANSWER_ATTEND where ANSWER_ATTENDANCE = '3' and ANSWER_EVENT_DATE = ? and EVENT_ID = ?",eventDate, eventId);
 			return answerCount;
 		}
 
@@ -81,6 +81,11 @@ public class AnswerAttendAccessor {
 			return answerCount;
 		}
 
+		public Map<String,Object> getComment(String eventId, String userName){
+			Map<String,Object> comment = jdbcTemplate.queryForMap("select ANSWER_USER_COMMENT from TB_TRN_USER_ANSWER where EVENT_ID = ? and ANSWER_USER_NAME = ?",eventId,userName);
+			return comment;
+		}
+
 		/**
 		 * 候補日と氏名を取得してTB_TRN_ANSWER_ATTENDのレコード全て持ってくる
 		 * @param eventDate
@@ -91,6 +96,8 @@ public class AnswerAttendAccessor {
 			List<Map<String, Object>> answerCount = jdbcTemplate.queryForList("select * from TB_TRN_ANSWER_ATTEND where ANSWER_EVENT_DATE = ? and ANSWER_USER_NAME = ?",eventDate,userName);
 			return answerCount;
 		}
+
+
 
 
 }

@@ -73,9 +73,9 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 			String eventDate = eventDateMap.get("EVENT_DATE").toString();
 
 			//各回答情報を取得
-			Map<String, Object> answerAttenDanceMaru = answerAttendAccessor.getAnswerCountMaru(eventDate);
-			Map<String, Object> answerAttenDanceSankaku = answerAttendAccessor.getAnswerCountSankaku(eventDate);
-			Map<String, Object> answerAttenDanceBatu = answerAttendAccessor.getAnswerCountBatu(eventDate);
+			Map<String, Object> answerAttenDanceMaru = answerAttendAccessor.getAnswerCountMaru(eventDate, eventId);
+			Map<String, Object> answerAttenDanceSankaku = answerAttendAccessor.getAnswerCountSankaku(eventDate, eventId);
+			Map<String, Object> answerAttenDanceBatu = answerAttendAccessor.getAnswerCountBatu(eventDate, eventId);
 			String answerAttenDance1 = answerAttenDanceMaru.get("ANSWER_COUNT").toString();
 			String answerAttenDance2 = answerAttenDanceSankaku.get("ANSWER_COUNT").toString();
 			String answerAttenDance3 = answerAttenDanceBatu.get("ANSWER_COUNT").toString();
@@ -95,105 +95,77 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 
 
 
-	/**
-	 * 回答内容取得(仮)
-	 */
-	public List<Map<String, Object>> getAnswer(answerAttendForm answerAttendForm, List<Map<String,Object>> eventDateList){
-		String eventId = answerAttendForm.getEventId();
-		Map<String,Object> answerInfo = new HashMap<String, Object>();
-
-
-		//氏名を取得
-		List<Map<String,Object>> nameList = answerAttendAccessor.getAnswerUserName(eventId);
-		List<Map<String,Object>> Answer = null;
-
-
-		//候補日でまわす
-		for(Map<String,Object> eventDateMap : eventDateList) {
-			String eventDate = eventDateMap.get("EVENT_DATE").toString();
-
-			for(Map<String, Object> name:nameList) {
-				//氏名を取得
-				String userName = name.get("ANSWER_USER_NAME").toString();
-
-				//候補日と氏名を指定して回答を取得
-				Answer = answerAttendAccessor.getAnswerAttendance2(eventDate, userName);
-
-			}
-		}
-		return Answer;
-	}
-
 
 	/**
-	 * 回答内容取得(仮)2
+	 * 回答結果のヘッダーを取得する
+	 * @param eventDateList
+	 * @return ヘッダー項目
 	 */
 	@Override
-	public Map<String,Map<String,Object>> getAnswer2(answerAttendForm answerAttendForm, List<Map<String,Object>> eventDateList){
+	public List<String> getHeaderList(List<Map<String,Object>> eventDateList) {
 
-		String eventId = answerAttendForm.getEventId();
+		//ヘッダー項目リスト
+		List<String> headerList = new ArrayList<>();
+
 		//氏名を取得
-		List<Map<String,Object>> nameList = answerAttendAccessor.getAnswerUserName(eventId);
-		Map<String,Map<String,Object>> answerInfoMap = new HashMap<String,Map<String, Object>>();
+		headerList.add("氏名");
 
-		//候補日で繰り返し
+		//候補日を取得
 		for(Map<String,Object> eventDateMap : eventDateList) {
 			String eventDate = eventDateMap.get("EVENT_DATE").toString();
-
-			for(Map<String, Object> name:nameList) {
-				//氏名を取得
-				String userName = name.get("ANSWER_USER_NAME").toString();
-
-				//候補日をキーにしたMapを生成
-				answerInfoMap.put(eventDate, new HashMap<String, Object>());
-
-				//候補日と氏名を指定して回答を取得
-				Map<String,Object> Answer = answerAttendAccessor.getAnswerAttendance(eventDate, userName);
-				String answerAttendance= Answer.get("ANSWER_ATTENDANCE").toString();
-
-				//候補日をキーにして氏名をキーにした回答を取得するMap
-				answerInfoMap.get(eventDate).put(userName,answerAttendance);
-				System.out.println("候補日は" + eventDate + "氏名は"+userName + "回答は" + answerAttendance);
-			}
-
+			headerList.add(eventDate);
 		}
-		System.out.println("Keyは" + answerInfoMap.keySet());
 
-		return answerInfoMap;
+		//コメントを取得
+		headerList.add("コメント");
+
+		return headerList;
+
 	}
 
+	/**
+	 * 回答結果内容を取得する
+	 * @param answerAttendForm
+	 * @param eventDateList
+	 * @return
+	 */
+	public List<List<String>> getAnswerList(answerAttendForm answerAttendForm, List<Map<String,Object>> eventDateList){
 
+		//回答者ごとの回答情報リスト
+		List<List<String>> answerList = new ArrayList<>();
+		List<String> answer = new ArrayList<>();
 
-	public Map<String,List<String>> getAnswer3(answerAttendForm answerAttendForm, List<Map<String,Object>> eventDateList){
-
+		//回答者リストを取得
 		String eventId = answerAttendForm.getEventId();
-
-		//氏名を取得
 		List<Map<String,Object>> nameList = answerAttendAccessor.getAnswerUserName(eventId);
 
+		for(Map<String, Object> name : nameList) {
 
-		Map<String,List<String>> answerInfoMap = new HashMap<>();
-		List<String> list = new ArrayList<>();
+			//回答者を取得
+			String userName = name.get("ANSWER_USER_NAME").toString();
+			answer.add(userName);
 
-
-		//候補日で繰り返し
-		for(Map<String,Object> eventDateMap : eventDateList) {
-			String eventDate = eventDateMap.get("EVENT_DATE").toString();
-
-			for(Map<String, Object> name:nameList) {
-				//氏名を取得
-				String userName = name.get("ANSWER_USER_NAME").toString();
+			//候補日を取得
+			for(Map<String,Object> eventDateMap : eventDateList) {
+				String eventDate = eventDateMap.get("EVENT_DATE").toString();
 
 				//候補日と氏名を指定して回答を取得
 				Map<String,Object> Answer = answerAttendAccessor.getAnswerAttendance(eventDate, userName);
 				String answerAttendance= Answer.get("ANSWER_ATTENDANCE").toString();
-				list.add(answerAttendance);
 
-				answerInfoMap.put(userName, list);
-
+				answer.add(answerAttendance);
 			}
+
+			//コメントを取得
+			Map<String,Object> commentMap = answerAttendAccessor.getComment(eventId, userName);
+			String comment = commentMap.get("ANSWER_USER_COMMENT").toString();
+			answer.add(comment);
+
 		}
-		return answerInfoMap;
+
+		answerList.add(answer);
+
+		return answerList;
 	}
 }
 
