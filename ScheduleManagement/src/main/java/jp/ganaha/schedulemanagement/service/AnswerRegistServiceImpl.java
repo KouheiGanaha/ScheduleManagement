@@ -13,8 +13,7 @@ import jp.ganaha.schedulemanagement.form.AnswerRegistForm;
 @Service
 public class AnswerRegistServiceImpl implements AnswerRegistService{
 
-	@Autowired
-	AnswerRegistAccessor answerRegistAccessor;
+	@Autowired AnswerRegistAccessor answerRegistAccessor;
 
 	/**
 	 * イベント情報取得

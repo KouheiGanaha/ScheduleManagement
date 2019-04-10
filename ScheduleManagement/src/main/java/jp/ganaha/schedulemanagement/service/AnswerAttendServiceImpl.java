@@ -5,11 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jp.ganaha.schedulemanagement.db.AnswerAttendAccessor;
-import jp.ganaha.schedulemanagement.form.answerAttendForm;
+import jp.ganaha.schedulemanagement.form.AnswerAttendForm;
 
 @Service
 public class AnswerAttendServiceImpl implements AnswerAttendService{
@@ -44,7 +45,8 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 	/**
 	 * イベントIDを引数に氏名を取得
 	 */
-	public List<Map<String, Object>> getAnswerUserName(answerAttendForm answerAttendForm){
+	@Override
+	public List<Map<String, Object>> getAnswerUserName(AnswerAttendForm answerAttendForm){
 		String eventId = answerAttendForm.getEventId();
 
 		//氏名を取得
@@ -58,12 +60,9 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 	 * 回答集計結果を取得
 	 */
 	@Override
-	public Map<String, Map<String, Object>> getAnswerAttendance(answerAttendForm answerAttendForm, List<Map<String,Object>> eventDateList){
+	public Map<String, Map<String, Object>> getAnswerAttendance(AnswerAttendForm answerAttendForm, List<Map<String,Object>> eventDateList){
 		System.out.println(answerAttendForm.getEventUrl());
 		String eventId = answerAttendForm.getEventId();
-
-		//イベントURLのランダム値取得
-		String eventUrl = answerAttendForm.getEventUrl();
 
 		Map<String,Map<String,Object>> answerAttendance = new HashMap<String,Map<String,Object>>();
 
@@ -85,15 +84,11 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 			answerAttendance.get(eventDate).put("2", answerAttenDance2);
 			answerAttendance.get(eventDate).put("3", answerAttenDance3);
 
-
-			System.out.println(answerAttendance.get(eventDate).values());
 			i++;
 		}
 
 		return answerAttendance;
 	}
-
-
 
 
 	/**
@@ -127,19 +122,22 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 	 * 回答結果内容を取得する
 	 * @param answerAttendForm
 	 * @param eventDateList
-	 * @return
+	 * @return 回答情報リスト
 	 */
-	public List<List<String>> getAnswerList(answerAttendForm answerAttendForm, List<Map<String,Object>> eventDateList){
+	@Override
+	public List<List<String>> getAnswerList(AnswerAttendForm answerAttendForm, List<Map<String,Object>> eventDateList){
 
 		//回答者ごとの回答情報リスト
 		List<List<String>> answerList = new ArrayList<>();
-		List<String> answer = new ArrayList<>();
 
 		//回答者リストを取得
 		String eventId = answerAttendForm.getEventId();
 		List<Map<String,Object>> nameList = answerAttendAccessor.getAnswerUserName(eventId);
 
 		for(Map<String, Object> name : nameList) {
+
+			//回答者ごとの回答情報を取得する
+			List<String> answer = new ArrayList<>();
 
 			//回答者を取得
 			String userName = name.get("ANSWER_USER_NAME").toString();
@@ -153,7 +151,14 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 				Map<String,Object> Answer = answerAttendAccessor.getAnswerAttendance(eventDate, userName);
 				String answerAttendance= Answer.get("ANSWER_ATTENDANCE").toString();
 
-				answer.add(answerAttendance);
+				//DBから取得した回答を画面に表示する値に変換
+				if(StringUtils.equals(answerAttendance, "1")) {
+					answer.add("○");
+				} else if(StringUtils.equals(answerAttendance, "2")) {
+					answer.add("△");
+				} else if(StringUtils.equals(answerAttendance, "3")) {
+					answer.add("×");
+				}
 			}
 
 			//コメントを取得
@@ -161,9 +166,9 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 			String comment = commentMap.get("ANSWER_USER_COMMENT").toString();
 			answer.add(comment);
 
+			//回答情報を追加
+			answerList.add(answer);
 		}
-
-		answerList.add(answer);
 
 		return answerList;
 	}

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jp.ganaha.schedulemanagement.form.AnswerRegistForm;
-import jp.ganaha.schedulemanagement.form.answerAttendForm;
+import jp.ganaha.schedulemanagement.form.AnswerAttendForm;
 import jp.ganaha.schedulemanagement.service.AnswerAttendService;
 import jp.ganaha.schedulemanagement.service.AnswerRegistService;
 
@@ -34,25 +34,18 @@ public class AnswerRegistController {
 		model.addAttribute("answerRegistForm", new AnswerRegistForm());
 		model.addAttribute("Url", Url);
 
-		/**
-		 * イベント情報取得
-		 */
+		//イベント情報取得
 		Map<String, Object> eventData = answerRegistService.getEventData(Url);
 		if(eventData.equals(null)) {
-			//ページはありませんに直す
 			return "error/404";
 		}
 		model.addAttribute("eventData",eventData);
 
-		/**
-		 * イベントの候補日取得
-		 */
+		//イベントの候補日取得
 		List<Map<String,Object>> eventDate = answerRegistService.getEventDate(eventData);
 		model.addAttribute("eventDate",eventDate);
 
-		/**
-		 * 回答の選択肢取得
-		 */
+		//回答の選択肢取得
 		Map<String,String> getSelectItems = answerRegistService.getSelectItems();
 		model.addAttribute("selectItems",getSelectItems);
 
@@ -67,7 +60,7 @@ public class AnswerRegistController {
 	 * @return
 	 */
 	@RequestMapping("/event/answerAttend")
-	public String create(@ModelAttribute @Validated AnswerRegistForm answerRegistForm, answerAttendForm answerAttendForm,BindingResult bindingResult, Model model) {
+	public String create(@ModelAttribute @Validated AnswerRegistForm answerRegistForm, AnswerAttendForm answerAttendForm,BindingResult bindingResult, Model model) {
 
 		FieldError answerNameError = bindingResult.getFieldError("answerName");
 		FieldError commentError = bindingResult.getFieldError("comment");
@@ -86,25 +79,20 @@ public class AnswerRegistController {
 		answerRegistService.create(answerRegistForm);
 
 
-		//-------------------以下、出欠参照画面の処理---------------------//
-
-
-		//イベント情報取得メソッドの引数に渡す為のイベントURLランダム値を取得
+		//イベント情報取得のServiceに渡す為のイベントURLランダム値を取得
 		String eventUrl = answerAttendForm.getEventUrl();
 
 		//イベント情報を取得
 		Map<String,Object> eventData = answerAttendService.getEventData(eventUrl);
-		model.addAttribute("eventData", eventData);
 		String eventId = eventData.get("EVENT_ID").toString();
+		model.addAttribute("eventData", eventData);
 
 		//候補日を取得
 		List<Map<String,Object>> eventDateList = answerAttendService.getEventDate(eventId);
-		model.addAttribute("list",eventDateList);
 
 		//集計結果を取得
 		Map<String, Map<String, Object>> answerAttendance = answerAttendService.getAnswerAttendance(answerAttendForm, eventDateList);
 		model.addAttribute("answerAttendance",answerAttendance);
-
 
 		//回答結果のヘッダーを取得
 		List<String> headerList = answerAttendService.getHeaderList(eventDateList);

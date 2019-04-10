@@ -1,6 +1,6 @@
 package jp.ganaha.schedulemanagement.form;
 
-public class answerAttendForm {
+public class AnswerAttendForm {
 
 	private String eventId;
 
