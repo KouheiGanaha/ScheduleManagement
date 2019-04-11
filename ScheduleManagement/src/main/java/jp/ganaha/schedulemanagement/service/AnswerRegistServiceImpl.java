@@ -60,8 +60,6 @@ public class AnswerRegistServiceImpl implements AnswerRegistService{
 	@Override
 	public void create(AnswerRegistForm answerRegistForm){
 
-		System.out.println(answerRegistForm.getEventUrl());
-
 		//イベントID取得
 		String eventId = answerRegistForm.getEventId();
 

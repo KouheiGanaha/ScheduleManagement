@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jp.ganaha.schedulemanagement.db.AnswerAttendAccessor;
-import jp.ganaha.schedulemanagement.form.AnswerAttendForm;
 
 @Service
 public class AnswerAttendServiceImpl implements AnswerAttendService{
@@ -42,27 +41,12 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 		return answerAttendList;
 	}
 
-	/**
-	 * イベントIDを引数に氏名を取得
-	 */
-	@Override
-	public List<Map<String, Object>> getAnswerUserName(AnswerAttendForm answerAttendForm){
-		String eventId = answerAttendForm.getEventId();
-
-		//氏名を取得
-		List<Map<String,Object>> nameList = answerAttendAccessor.getAnswerUserName(eventId);
-
-		return nameList;
-
-	}
 
 	/**
 	 * 回答集計結果を取得
 	 */
 	@Override
-	public Map<String, Map<String, Object>> getAnswerAttendance(AnswerAttendForm answerAttendForm, List<Map<String,Object>> eventDateList){
-		System.out.println(answerAttendForm.getEventUrl());
-		String eventId = answerAttendForm.getEventId();
+	public Map<String, Map<String, Object>> getAnswerAttendance(String eventId, List<Map<String,Object>> eventDateList){
 
 		Map<String,Map<String,Object>> answerAttendance = new HashMap<String,Map<String,Object>>();
 
@@ -125,13 +109,10 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 	 * @return 回答情報リスト
 	 */
 	@Override
-	public List<List<String>> getAnswerList(AnswerAttendForm answerAttendForm, List<Map<String,Object>> eventDateList){
+	public List<List<String>> getAnswerList(String eventId, List<Map<String,Object>> eventDateList){
 
 		//回答者ごとの回答情報リスト
 		List<List<String>> answerList = new ArrayList<>();
-
-		//回答者リストを取得
-		String eventId = answerAttendForm.getEventId();
 		List<Map<String,Object>> nameList = answerAttendAccessor.getAnswerUserName(eventId);
 
 		for(Map<String, Object> name : nameList) {

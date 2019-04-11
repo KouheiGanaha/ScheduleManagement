@@ -14,44 +14,44 @@
   </style>
 
 <body>
-<H2>出欠参照</H2>
-	<input type="hidden" name="eventUrl" th:value="${answerRegistForm.eventUrl}">
+	<H2>出欠参照</H2>
 
-		<p>イベント名:<span th:text= "${eventData.get('EVENT_NAME')}"></span></p>
-		<p>イベントメモ:<span th:text= "${eventData.get('EVENT_MEMO')}"></span></p>
+		<input type="hidden" name="eventUrl" th:value="${answerAttendForm.eventUrl}">
 
-    <table border="2" class="list" align="left">
-        <tr>
-        	<th>日程</th>
-        	<th>○</th>
-        	<th>△</th>
-        	<th>×</th>
-        </tr>
+			<p>イベント名:<span th:text= "${eventData.get('EVENT_NAME')}"></span></p>
+			<p>イベントメモ:<span th:text= "${eventData.get('EVENT_MEMO')}"></span></p>
 
-        <tr th:each="answerAttendance : ${answerAttendance}">
-	    	<td th:text="${answerAttendance.Key}"></td>
-	    	<td th:text="${answerAttendance.Value.get('1')}"></td>
-	        <td th:text="${answerAttendance.Value.get('2')}"></td>
-	        <td th:text="${answerAttendance.Value.get('3')}"></td>
-        </tr>
-	</table>
+	    <table border="2" class="list" align="left">
+        	<tr>
+        		<th>日程</th>
+        		<th>○</th>
+        		<th>△</th>
+        		<th>×</th>
+        	</tr>
+
+        	<tr th:each="answerAttendance : ${answerAttendance}">
+	    		<td th:text="${answerAttendance.Key}"></td>
+	    		<td th:text="${answerAttendance.Value.get('1')}"></td>
+	        	<td th:text="${answerAttendance.Value.get('2')}"></td>
+	        	<td th:text="${answerAttendance.Value.get('3')}"></td>
+        	</tr>
+		</table>
 
 
-    <table border="2" class="list">
-        <thead>
-        	<th th:each = "header : ${header}">
-        		<span th:text="${header}"></span>
-        	</th>
-        </thead>
+    	<table border="2" class="list">
+        	<thead>
+        		<th th:each = "header : ${header}">
+        			<span th:text="${header}"></span>
+        		</th>
+        	</thead>
 
-    	<tbody>
-			<tr th:each = "answerInfo : ${answerList}">
-				<th:block th:each="answerData : ${answerInfo}">
-					<td th:text="${answerData}"></td>
-				</th:block>
-			</tr>
-		</tbody>
-    </table>
-
+    		<tbody>
+				<tr th:each = "answerInfo : ${answerList}">
+					<th:block th:each="answerData : ${answerInfo}">
+						<td th:text="${answerData}"></td>
+					</th:block>
+				</tr>
+			</tbody>
+    	</table>
 </body>
 </html>

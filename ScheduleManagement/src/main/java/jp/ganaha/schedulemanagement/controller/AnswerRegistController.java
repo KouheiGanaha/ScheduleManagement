@@ -12,9 +12,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.ganaha.schedulemanagement.form.AnswerRegistForm;
-import jp.ganaha.schedulemanagement.form.AnswerAttendForm;
 import jp.ganaha.schedulemanagement.service.AnswerAttendService;
 import jp.ganaha.schedulemanagement.service.AnswerRegistService;
 
@@ -59,8 +59,8 @@ public class AnswerRegistController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping("/event/answerAttend")
-	public String create(@ModelAttribute @Validated AnswerRegistForm answerRegistForm, AnswerAttendForm answerAttendForm,BindingResult bindingResult, Model model) {
+	@RequestMapping("/create")
+	public String create(@ModelAttribute @Validated AnswerRegistForm answerRegistForm, BindingResult bindingResult, RedirectAttributes redirectAttributes, @RequestParam("eventUrl") String eventUrl, Model model) {
 
 		FieldError answerNameError = bindingResult.getFieldError("answerName");
 		FieldError commentError = bindingResult.getFieldError("comment");
@@ -78,30 +78,9 @@ public class AnswerRegistController {
 		}
 		answerRegistService.create(answerRegistForm);
 
+		eventUrl = answerRegistForm.getEventUrl();
+		redirectAttributes.addFlashAttribute("eventUrl", eventUrl);
 
-		//イベント情報取得のServiceに渡す為のイベントURLランダム値を取得
-		String eventUrl = answerAttendForm.getEventUrl();
-
-		//イベント情報を取得
-		Map<String,Object> eventData = answerAttendService.getEventData(eventUrl);
-		String eventId = eventData.get("EVENT_ID").toString();
-		model.addAttribute("eventData", eventData);
-
-		//候補日を取得
-		List<Map<String,Object>> eventDateList = answerAttendService.getEventDate(eventId);
-
-		//集計結果を取得
-		Map<String, Map<String, Object>> answerAttendance = answerAttendService.getAnswerAttendance(answerAttendForm, eventDateList);
-		model.addAttribute("answerAttendance",answerAttendance);
-
-		//回答結果のヘッダーを取得
-		List<String> headerList = answerAttendService.getHeaderList(eventDateList);
-		model.addAttribute("header", headerList);
-
-		//回答結果内容を取得
-		List<List<String>> answerList = answerAttendService.getAnswerList(answerAttendForm, eventDateList);
-		model.addAttribute("answerList", answerList);
-
-		return "event/answerAttend";
+		return "redirect:/event/answerAttend";
 	}
 }
