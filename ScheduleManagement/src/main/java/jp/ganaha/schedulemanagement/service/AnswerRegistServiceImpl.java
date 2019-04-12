@@ -19,14 +19,14 @@ public class AnswerRegistServiceImpl implements AnswerRegistService{
 	 * イベント情報取得
 	 */
 	@Override
-	public Map<String,Object> getEventData(String eventUrl){
+	public Map<String,Object> getEventData(String eventUrl) {
 
 		Map<String,Object> eventData = null;
 
 		try {
 			eventData = answerRegistAccessor.getEventData(eventUrl);
 		}catch(RuntimeException e) {
-			return null;
+			throw new RuntimeException("イベント情報が見つかりませんでした", e);
 		}
 
 		return eventData;
@@ -36,7 +36,7 @@ public class AnswerRegistServiceImpl implements AnswerRegistService{
 	 * イベントの候補日取得
 	 */
 	@Override
-	public List<Map<String,Object>> getEventDate(Map<String,Object> eventData){
+	public List<Map<String,Object>> getEventDate(Map<String,Object> eventData) {
 		String eventId = eventData.get("EVENT_ID").toString();
 		List<Map<String,Object>> eventDate = answerRegistAccessor.getEventDate(eventId);
 		return eventDate;
@@ -58,7 +58,7 @@ public class AnswerRegistServiceImpl implements AnswerRegistService{
 	 * イベント情報の登録
 	 */
 	@Override
-	public void create(AnswerRegistForm answerRegistForm){
+	public void create(AnswerRegistForm answerRegistForm) {
 
 		//イベントID取得
 		String eventId = answerRegistForm.getEventId();

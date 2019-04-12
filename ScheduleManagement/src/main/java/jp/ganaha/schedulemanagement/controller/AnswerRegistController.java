@@ -36,9 +36,6 @@ public class AnswerRegistController {
 
 		//イベント情報取得
 		Map<String, Object> eventData = answerRegistService.getEventData(Url);
-		if(eventData.equals(null)) {
-			return "error/404";
-		}
 		model.addAttribute("eventData",eventData);
 
 		//イベントの候補日取得
@@ -79,7 +76,7 @@ public class AnswerRegistController {
 		answerRegistService.create(answerRegistForm);
 
 		eventUrl = answerRegistForm.getEventUrl();
-		redirectAttributes.addFlashAttribute("eventUrl", eventUrl);
+		redirectAttributes.addAttribute("Url", eventUrl);
 
 		return "redirect:/event/answerAttend";
 	}

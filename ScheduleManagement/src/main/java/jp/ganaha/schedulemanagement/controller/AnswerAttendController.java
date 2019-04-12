@@ -16,7 +16,7 @@ public class AnswerAttendController {
 	@Autowired AnswerAttendService answerAttendService;
 
 	@RequestMapping("/event/answerAttend")
-	public String create(@ModelAttribute("eventUrl") String eventUrl, Model model) {
+	public String create(@ModelAttribute("Url") String eventUrl, Model model) {
 
 		//イベント情報を取得
 		Map<String,Object> eventData = answerAttendService.getEventData(eventUrl);

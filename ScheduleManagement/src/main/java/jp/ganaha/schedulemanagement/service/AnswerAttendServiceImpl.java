@@ -20,10 +20,17 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 	 * イベントURLのランダム値を引数にイベント情報を取得
 	 */
 	@Override
-	public Map<String, Object> getEventData(String eventUrl){
+	public Map<String, Object> getEventData(String eventUrl) {
 
+		Map<String, Object> eventData = new HashMap<>();
+
+		try {
 		//EVENT_URLを指定してイベント情報取得
-		Map<String, Object> eventData = answerAttendAccessor.getEventData(eventUrl);
+		eventData = answerAttendAccessor.getEventData(eventUrl);
+
+		}catch(RuntimeException e) {
+			throw new RuntimeException("イベント情報が見つかりませんでした", e);
+		}
 
 		return eventData;
 
@@ -33,7 +40,7 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 	 * イベントIDを引数に候補日を取得
 	 */
 	@Override
-	public List<Map<String, Object>> getEventDate(String eventId){
+	public List<Map<String, Object>> getEventDate(String eventId) {
 
 		//EVENT_IDを指定して候補日を取得する
 		List<Map<String, Object>> answerAttendList = answerAttendAccessor.getAnswerAttendEventDate(eventId);
@@ -46,7 +53,7 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 	 * 回答集計結果を取得
 	 */
 	@Override
-	public Map<String, Map<String, Object>> getAnswerAttendance(String eventId, List<Map<String,Object>> eventDateList){
+	public Map<String, Map<String, Object>> getAnswerAttendance(String eventId, List<Map<String,Object>> eventDateList) {
 
 		Map<String,Map<String,Object>> answerAttendance = new HashMap<String,Map<String,Object>>();
 
@@ -109,7 +116,7 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 	 * @return 回答情報リスト
 	 */
 	@Override
-	public List<List<String>> getAnswerList(String eventId, List<Map<String,Object>> eventDateList){
+	public List<List<String>> getAnswerList(String eventId, List<Map<String,Object>> eventDateList) {
 
 		//回答者ごとの回答情報リスト
 		List<List<String>> answerList = new ArrayList<>();
