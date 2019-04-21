@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,7 @@ public class EventRegistServiceImpl implements EventRegistService{
 	@Autowired
 	EventRegistAccessor eventRegistAccessor;
 
+	final static Logger logger =LoggerFactory.getLogger(EventRegistServiceImpl.class);
 
 	/**
 	 * 入力された候補日を改行ごとに分割して取得する
@@ -55,12 +58,17 @@ public class EventRegistServiceImpl implements EventRegistService{
 
 		try {
 
+			logger.info("getEventUrl start");
 			String eventUrlCount =  eventRegistAccessor.getEventUrl(eventUrl).get("EVENT_URL").toString();
+			logger.info("eventData end: {}", eventUrlCount);
 
 			//DBに同じランダム値が存在する場合、処理をループさせる
 			while(!eventUrlCount.equals("0")) {
 				eventUrl = RandomStringUtils.randomAlphanumeric(10);
+
+				logger.info("getEventUrl start");
 				eventUrlCount =  eventRegistAccessor.getEventUrl(eventUrl).get("EVENT_URL").toString();
+				logger.info("eventData end: {}", eventUrlCount);
 
 				//ランダム値が重複しない場合、ループを抜ける
 				if(eventUrlCount.equals("0")) {
@@ -90,7 +98,9 @@ public class EventRegistServiceImpl implements EventRegistService{
 
 		//イベントをDBに登録
 		try {
-			eventRegistAccessor.insertEvent(eventId,eventRegistForm.getEventName(),eventRegistForm.getEventMemo(),RondomNumber);
+			logger.info("create start");
+			int createCount = eventRegistAccessor.insertEvent(eventId,eventRegistForm.getEventName(),eventRegistForm.getEventMemo(),RondomNumber);
+			logger.info("create end: {}", createCount);
 		}catch(RuntimeException e) {
 			throw new RuntimeException("イベント情報の登録に失敗しました",e);
 		}
@@ -98,13 +108,17 @@ public class EventRegistServiceImpl implements EventRegistService{
 		//候補日をDBに登録
 		try {
 			for(String eventDate : eventDateArray) {
-				eventRegistAccessor.insertEventDate(eventId,eventDate);
+				logger.info("eventDateCount start");
+				int eventDateCount = eventRegistAccessor.insertEventDate(eventId,eventDate);
+				logger.info("eventDateCount end: {}", eventDateCount);
 			}
 		}catch(RuntimeException e) {
 			throw new RuntimeException("候補日の登録に失敗しました",e);
 		}
 
 		Map<String, Object> row = eventRegistAccessor.getEventData(eventId);
+		logger.info("create data: {}", row);
+
 		return row;
 	}
 

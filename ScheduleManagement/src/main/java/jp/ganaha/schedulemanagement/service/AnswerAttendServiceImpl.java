@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 
 	@Autowired AnswerAttendAccessor answerAttendAccessor;
 
+	final static Logger logger =LoggerFactory.getLogger(AnswerAttendServiceImpl.class);
+
 	/**
 	 * イベントURLのランダム値を引数にイベント情報を取得
 	 */
@@ -24,9 +28,13 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 
 		Map<String, Object> eventData = new HashMap<>();
 
+		logger.info("eventData start");
+
 		try {
 		//EVENT_URLを指定してイベント情報取得
 		eventData = answerAttendAccessor.getEventData(eventUrl);
+
+		logger.info("eventData end: {}", eventData);
 
 		}catch(RuntimeException e) {
 			throw new RuntimeException("イベント情報が見つかりませんでした", e);
@@ -42,8 +50,12 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 	@Override
 	public List<Map<String, Object>> getEventDate(String eventId) {
 
+		logger.info("answerAttendList start");
+
 		//EVENT_IDを指定して候補日を取得する
 		List<Map<String, Object>> answerAttendList = answerAttendAccessor.getAnswerAttendEventDate(eventId);
+
+		logger.info("answerAttendList end: {}", answerAttendList);
 
 		return answerAttendList;
 	}
@@ -62,10 +74,19 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 			eventDateMap = eventDateList.get(i);
 			String eventDate = eventDateMap.get("EVENT_DATE").toString();
 
+			logger.info("answerAttenDanceMaru start");
 			//各回答情報を取得
 			Map<String, Object> answerAttenDanceMaru = answerAttendAccessor.getAnswerCountMaru(eventDate, eventId);
+			logger.info("answerAttenDanceMaru end: {}", answerAttenDanceMaru);
+
+			logger.info("answerAttenDanceSankaku start");
 			Map<String, Object> answerAttenDanceSankaku = answerAttendAccessor.getAnswerCountSankaku(eventDate, eventId);
+			logger.info("answerAttenDanceSankaku end: {}", answerAttenDanceSankaku);
+
+			logger.info("answerAttenDanceBatu start");
 			Map<String, Object> answerAttenDanceBatu = answerAttendAccessor.getAnswerCountBatu(eventDate, eventId);
+			logger.info("answerAttenDanceBatu end: {}", answerAttenDanceBatu);
+
 			String answerAttenDance1 = answerAttenDanceMaru.get("ANSWER_COUNT").toString();
 			String answerAttenDance2 = answerAttenDanceSankaku.get("ANSWER_COUNT").toString();
 			String answerAttenDance3 = answerAttenDanceBatu.get("ANSWER_COUNT").toString();
@@ -135,8 +156,11 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 			for(Map<String,Object> eventDateMap : eventDateList) {
 				String eventDate = eventDateMap.get("EVENT_DATE").toString();
 
+				logger.info("getAnswerAttendance start");
 				//候補日と氏名を指定して回答を取得
 				Map<String,Object> Answer = answerAttendAccessor.getAnswerAttendance(eventDate, userName);
+				logger.info("getAnswerAttendance end: {}", Answer);
+
 				String answerAttendance= Answer.get("ANSWER_ATTENDANCE").toString();
 
 				//DBから取得した回答を画面に表示する値に変換
@@ -149,8 +173,11 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 				}
 			}
 
+			logger.info("getComment start");
 			//コメントを取得
 			Map<String,Object> commentMap = answerAttendAccessor.getComment(eventId, userName);
+			logger.info("getComment end: {}", commentMap);
+
 			String comment = commentMap.get("ANSWER_USER_COMMENT").toString();
 			answer.add(comment);
 

@@ -4,6 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ public class AnswerRegistServiceImpl implements AnswerRegistService{
 
 	@Autowired AnswerRegistAccessor answerRegistAccessor;
 
+	final static Logger logger =LoggerFactory.getLogger(EventRegistServiceImpl.class);
+
 	/**
 	 * イベント情報取得
 	 */
@@ -25,6 +29,7 @@ public class AnswerRegistServiceImpl implements AnswerRegistService{
 
 		try {
 			eventData = answerRegistAccessor.getEventData(eventUrl);
+			logger.info("event data: {}", eventData);
 		}catch(RuntimeException e) {
 			throw new RuntimeException("イベント情報が見つかりませんでした", e);
 		}
@@ -38,8 +43,10 @@ public class AnswerRegistServiceImpl implements AnswerRegistService{
 	@Override
 	public List<Map<String,Object>> getEventDate(Map<String,Object> eventData) {
 		String eventId = eventData.get("EVENT_ID").toString();
-		List<Map<String,Object>> eventDate = answerRegistAccessor.getEventDate(eventId);
-		return eventDate;
+		logger.info("eventDateList start");
+		List<Map<String,Object>> eventDateList = answerRegistAccessor.getEventDate(eventId);
+		logger.info("eventDateList end: {}", eventDateList);
+		return eventDateList;
 	}
 
 	/**
@@ -47,9 +54,9 @@ public class AnswerRegistServiceImpl implements AnswerRegistService{
 	 */
 	public Map<String,String> getSelectItems(){
 		Map<String,String> selectMap = new LinkedHashMap<String,String>();
-		selectMap.put("1","○");
-		selectMap.put("2","△");
-		selectMap.put("3","×");
+		selectMap.put("1", "○");
+		selectMap.put("2", "△");
+		selectMap.put("3", "×");
 		return selectMap;
 	}
 
@@ -68,9 +75,12 @@ public class AnswerRegistServiceImpl implements AnswerRegistService{
 
 		//回答テーブル登録
 		try {
-			answerRegistAccessor.insertUserAnswer(eventId, answerRegistForm.getAnswerName(), answerRegistForm.getComment());
+			logger.info("userAnswerCount start");
+			int userAnswerCount = answerRegistAccessor.insertUserAnswer(eventId, answerRegistForm.getAnswerName(), answerRegistForm.getComment());
+			logger.info("userAnswerCount end: {}", userAnswerCount);
+
 		}catch(RuntimeException e) {
-			throw new RuntimeException("回答者の登録に失敗しました",e);
+			throw new RuntimeException("回答者の登録に失敗しました", e);
 		}
 
 		//回答取得
@@ -82,9 +92,12 @@ public class AnswerRegistServiceImpl implements AnswerRegistService{
 			String eventDate = eventDateList.get("EVENT_DATE").toString();
 
 			try {
-				answerRegistAccessor.insertAnswerAttend(eventId, answerRegistForm.getAnswerName(),eventDate,answerAttendance[i]);
+				logger.info("AnswerAttendCount start");
+				int AnswerAttendCount = answerRegistAccessor.insertAnswerAttend(eventId, answerRegistForm.getAnswerName(),eventDate,answerAttendance[i]);
+				logger.info("AnswerAttendCount end: {}", AnswerAttendCount);
+
 			}catch(RuntimeException e) {
-				throw new RuntimeException("回答情報の登録に失敗しました",e);
+				throw new RuntimeException("回答情報の登録に失敗しました", e);
 			}
 			i++;
 		}
