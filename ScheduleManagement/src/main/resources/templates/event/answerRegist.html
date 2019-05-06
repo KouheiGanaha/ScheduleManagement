@@ -25,12 +25,13 @@
 						<p>イベントメモ:<span th:text= "${eventData.get('EVENT_MEMO')}"></span></p>
 						<p>氏名：<input type="text" th:field="*{answerName}"/></p>
 
-						<div th:each="eventDate:${eventDate}">
+						<div th:each="eventDate, stat:${eventDate}">
 							<p><span th:text= "${eventDate.get('EVENT_DATE')}"></span>
 
-            			<select th:field="*{answerAttendance}">
-              				<option th:each="item : ${selectItems}" th:value="${item.key}" th:text="${item.value}">pulldown</option>
-            			</select></p>
+            			<div th:field="*{answerAttendance}">
+            				<input type="radio" th:each="item : ${selectItems}" th:value="${item.key}" th:text="${item.value}">
+              			</div>
+
       					</div>
 					</div>
 				</div>
