@@ -158,7 +158,7 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 
 				logger.info("getAnswerAttendance start");
 				//候補日と氏名を指定して回答を取得
-				Map<String,Object> Answer = answerAttendAccessor.getAnswerAttendance(eventDate, userName);
+				Map<String,Object> Answer = answerAttendAccessor.getAnswerAttendance(eventId, eventDate, userName);
 				logger.info("getAnswerAttendance end: {}", Answer);
 
 				String answerAttendance= Answer.get("ANSWER_ATTENDANCE").toString();

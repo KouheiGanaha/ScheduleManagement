@@ -80,8 +80,8 @@ public class AnswerAttendAccessor {
 	 * @param userName
 	 * @return
 	 */
-	public Map<String, Object> getAnswerAttendance(String eventDate, String userName) {
-		Map<String,Object> answerCount = jdbcTemplate.queryForMap("select ANSWER_ATTENDANCE from TB_TRN_ANSWER_ATTEND where ANSWER_EVENT_DATE = ? and ANSWER_USER_NAME = ?",eventDate,userName);
+	public Map<String, Object> getAnswerAttendance(String eventId, String eventDate, String userName) {
+		Map<String,Object> answerCount = jdbcTemplate.queryForMap("select ANSWER_ATTENDANCE from TB_TRN_ANSWER_ATTEND where EVENT_ID = ? and ANSWER_EVENT_DATE = ? and ANSWER_USER_NAME = ?",eventId,eventDate,userName);
 		return answerCount;
 	}
 
