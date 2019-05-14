@@ -25,9 +25,9 @@
 					<div th:each="eventDate, stat:${eventDate}">
 						<span th:text= "${eventDate.get('EVENT_DATE')}"></span>
 
-            			<input type="radio"  th:field="*{answerAttendance[__${stat.index}__]}" th:value="1" checked="checked">○
-            			<input type="radio"  th:field="*{answerAttendance[__${stat.index}__]}" th:value="2">△
-            			<input type="radio"  th:field="*{answerAttendance[__${stat.index}__]}" th:value="3">×
+            			<input type="radio"  th:field="*{answerAttendance[__${stat.index}__]}" th:value="0" checked="checked">○
+            			<input type="radio"  th:field="*{answerAttendance[__${stat.index}__]}" th:value="1">△
+            			<input type="radio"  th:field="*{answerAttendance[__${stat.index}__]}" th:value="2">×
       				</div>
 				</div>
 			</div>

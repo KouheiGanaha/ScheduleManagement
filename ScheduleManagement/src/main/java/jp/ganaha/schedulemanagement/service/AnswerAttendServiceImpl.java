@@ -92,9 +92,9 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 			String answerAttenDance3 = answerAttenDanceBatu.get("ANSWER_COUNT").toString();
 
 			answerAttendance.put(eventDate, new HashMap<String,Object>());
-			answerAttendance.get(eventDate).put("1", answerAttenDance1);
-			answerAttendance.get(eventDate).put("2", answerAttenDance2);
-			answerAttendance.get(eventDate).put("3", answerAttenDance3);
+			answerAttendance.get(eventDate).put("0", answerAttenDance1);
+			answerAttendance.get(eventDate).put("1", answerAttenDance2);
+			answerAttendance.get(eventDate).put("2", answerAttenDance3);
 
 			i++;
 		}
@@ -164,11 +164,11 @@ public class AnswerAttendServiceImpl implements AnswerAttendService{
 				String answerAttendance= Answer.get("ANSWER_ATTENDANCE").toString();
 
 				//DBから取得した回答を画面に表示する値に変換
-				if(StringUtils.equals(answerAttendance, "1")) {
+				if(StringUtils.equals(answerAttendance, "0")) {
 					answer.add("○");
-				} else if(StringUtils.equals(answerAttendance, "2")) {
+				} else if(StringUtils.equals(answerAttendance, "1")) {
 					answer.add("△");
-				} else if(StringUtils.equals(answerAttendance, "3")) {
+				} else if(StringUtils.equals(answerAttendance, "2")) {
 					answer.add("×");
 				}
 			}

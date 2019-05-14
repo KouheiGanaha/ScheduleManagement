@@ -84,7 +84,7 @@ public class AnswerRegistServiceImpl implements AnswerRegistService{
 		}
 
 		//回答取得
-		String answerAttendance[] = answerRegistForm.getAnswerAttendance();
+		int answerAttendance[] = answerRegistForm.getAnswerAttendance();
 
 		//回答情報テーブル登録
 		int i = 0;

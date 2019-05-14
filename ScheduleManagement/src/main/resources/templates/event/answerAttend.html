@@ -29,9 +29,9 @@
 
         	<tr th:each="answerAttendance : ${answerAttendance}">
 	    		<td th:text="${answerAttendance.Key}"></td>
-	    		<td th:text="${answerAttendance.Value.get('1')}"></td>
+	    		<td th:text="${answerAttendance.Value.get('0')}"></td>
+	        	<td th:text="${answerAttendance.Value.get('1')}"></td>
 	        	<td th:text="${answerAttendance.Value.get('2')}"></td>
-	        	<td th:text="${answerAttendance.Value.get('3')}"></td>
         	</tr>
 		</table>
 

@@ -14,8 +14,9 @@ public class AnswerRegistForm {
 	@Size(max=255)
 	private String comment;
 
+	//登録できる候補日の最大値分を初期化
 	@NotEmpty
-	private String answerAttendance[];
+	private int answerAttendance[] = new int[57];
 
 	private String eventUrl;
 
@@ -43,11 +44,11 @@ public class AnswerRegistForm {
 		this.comment = comment;
 	}
 
-	public String[] getAnswerAttendance() {
+	public int[] getAnswerAttendance() {
 		return answerAttendance;
 	}
 
-	public void setAnswerAttendance(String[] answerAttendance) {
+	public void setAnswerAttendance(int[] answerAttendance) {
 		this.answerAttendance = answerAttendance;
 	}
 

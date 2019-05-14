@@ -40,7 +40,7 @@ public class AnswerAttendAccessor {
 	 * @return 出欠集計結果
 	 */
 	public Map<String, Object> getAnswerCountMaru(String eventDate, String eventId) {
-		Map<String,Object> answerCount = jdbcTemplate.queryForMap("select count(*) AS ANSWER_COUNT from TB_TRN_ANSWER_ATTEND where ANSWER_ATTENDANCE = '1' and ANSWER_EVENT_DATE = ? and EVENT_ID = ?", eventDate, eventId);
+		Map<String,Object> answerCount = jdbcTemplate.queryForMap("select count(*) AS ANSWER_COUNT from TB_TRN_ANSWER_ATTEND where ANSWER_ATTENDANCE = '0' and ANSWER_EVENT_DATE = ? and EVENT_ID = ?", eventDate, eventId);
 		return answerCount;
 	}
 
@@ -50,7 +50,7 @@ public class AnswerAttendAccessor {
 	 * @return 出欠集計結果
 	 */
 	public Map<String, Object> getAnswerCountSankaku(String eventDate, String eventId) {
-		Map<String,Object> answerCount = jdbcTemplate.queryForMap("select count(*) AS ANSWER_COUNT from TB_TRN_ANSWER_ATTEND where ANSWER_ATTENDANCE = '2' and ANSWER_EVENT_DATE = ? and EVENT_ID = ?",eventDate, eventId);
+		Map<String,Object> answerCount = jdbcTemplate.queryForMap("select count(*) AS ANSWER_COUNT from TB_TRN_ANSWER_ATTEND where ANSWER_ATTENDANCE = '1' and ANSWER_EVENT_DATE = ? and EVENT_ID = ?",eventDate, eventId);
 		return answerCount;
 	}
 
@@ -60,7 +60,7 @@ public class AnswerAttendAccessor {
 	 * @return 出欠集計結果
 	 */
 	public Map<String, Object> getAnswerCountBatu(String eventDate, String eventId) {
-		Map<String,Object> answerCount = jdbcTemplate.queryForMap("select count(*) AS ANSWER_COUNT from TB_TRN_ANSWER_ATTEND where ANSWER_ATTENDANCE = '3' and ANSWER_EVENT_DATE = ? and EVENT_ID = ?",eventDate, eventId);
+		Map<String,Object> answerCount = jdbcTemplate.queryForMap("select count(*) AS ANSWER_COUNT from TB_TRN_ANSWER_ATTEND where ANSWER_ATTENDANCE = '2' and ANSWER_EVENT_DATE = ? and EVENT_ID = ?",eventDate, eventId);
 		return answerCount;
 	}
 
@@ -81,7 +81,7 @@ public class AnswerAttendAccessor {
 	 * @return
 	 */
 	public Map<String, Object> getAnswerAttendance(String eventId, String eventDate, String userName) {
-		Map<String,Object> answerCount = jdbcTemplate.queryForMap("select ANSWER_ATTENDANCE from TB_TRN_ANSWER_ATTEND where EVENT_ID = ? and ANSWER_EVENT_DATE = ? and ANSWER_USER_NAME = ?",eventId,eventDate,userName);
+		Map<String,Object> answerCount = jdbcTemplate.queryForMap("select ANSWER_ATTENDANCE from TB_TRN_ANSWER_ATTEND where EVENT_ID = ? and ANSWER_EVENT_DATE = ? and ANSWER_USER_NAME = ?", eventId,eventDate,userName);
 		return answerCount;
 	}
 
