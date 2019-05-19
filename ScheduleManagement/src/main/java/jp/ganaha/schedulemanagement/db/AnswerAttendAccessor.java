@@ -95,4 +95,6 @@ public class AnswerAttendAccessor {
 		Map<String,Object> comment = jdbcTemplate.queryForMap("select ANSWER_USER_COMMENT from TB_TRN_USER_ANSWER where EVENT_ID = ? and ANSWER_USER_NAME = ?",eventId,userName);
 		return comment;
 	}
+
+
 }

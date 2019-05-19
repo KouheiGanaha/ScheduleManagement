@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,17 +71,32 @@ public class AnswerRegistServiceImpl implements AnswerRegistService{
 		//イベントID取得
 		String eventId = answerRegistForm.getEventId();
 
+		String answerUserName = answerRegistForm.getAnswerName();
+
 		//候補日情報取得
 		List<Map<String, Object>> eventDateInfo = answerRegistAccessor.getEventDate(eventId);
 
-		//回答テーブル登録
-		try {
-			logger.info("userAnswerCount start");
-			int userAnswerCount = answerRegistAccessor.insertUserAnswer(eventId, answerRegistForm.getAnswerName(), answerRegistForm.getComment());
-			logger.info("userAnswerCount end: {}", userAnswerCount);
+		//登録するイベントのIDと氏名をキーに条件に一致する回答情報の件数を取得
+		Map<String, Object> userNameMap =  answerRegistAccessor.getAnswerRegistUserNameCount(eventId, answerUserName);
+		String userNameCount = userNameMap.get("ANSWER_USER_COUNT").toString();
 
-		}catch(RuntimeException e) {
-			throw new RuntimeException("回答者の登録に失敗しました", e);
+		//件数が0件だった場合は回答者の登録をする
+		if(StringUtils.equals(userNameCount, "0")) {
+			//回答テーブル登録
+			try {
+				logger.info("userAnswerCount start");
+				int userAnswerCount = answerRegistAccessor.insertUserAnswer(eventId, answerRegistForm.getAnswerName(), answerRegistForm.getComment());
+				logger.info("userAnswerCount end: {}", userAnswerCount);
+
+			}catch(RuntimeException e) {
+				throw new RuntimeException("回答者の登録に失敗しました", e);
+			}
+
+		//登録する回答情報と一致するレコードが存在する場合はコメントの更新のみ
+		} else {
+			logger.info("commentUpdateCount start");
+			int commentUpdateCount = answerRegistAccessor.commentUpdate(eventId, answerRegistForm.getAnswerName(), answerRegistForm.getComment());
+			logger.info("commentUpdateCount end: {}", commentUpdateCount);
 		}
 
 		//回答取得
@@ -91,16 +107,27 @@ public class AnswerRegistServiceImpl implements AnswerRegistService{
 		for(Map<String, Object> eventDateList:eventDateInfo) {
 			String eventDate = eventDateList.get("EVENT_DATE").toString();
 
-			try {
-				logger.info("AnswerAttendCount start");
-				int AnswerAttendCount = answerRegistAccessor.insertAnswerAttend(eventId, answerRegistForm.getAnswerName(),eventDate,answerAttendance[i]);
-				logger.info("AnswerAttendCount end: {}", AnswerAttendCount);
+			////登録するイベントのIDと氏名をキーに条件に一致する回答情報の件数を取得
+			Map<String, Object> userNameMap2 =  answerRegistAccessor.getAnswerAttendUserNameCount(eventId, answerUserName);
+			String userName2 = userNameMap.get("ANSWER_USER_COUNT").toString();
 
-			}catch(RuntimeException e) {
-				throw new RuntimeException("回答情報の登録に失敗しました", e);
+			//件数が0件だった場合は回答登録をする
+			if(StringUtils.equals(userName2, "0")) {
+				try {
+					logger.info("AnswerAttendCount start");
+					int AnswerAttendCount = answerRegistAccessor.insertAnswerAttend(eventId, answerRegistForm.getAnswerName(),eventDate,answerAttendance[i]);
+					logger.info("AnswerAttendCount end: {}", AnswerAttendCount);
+
+				}catch(RuntimeException e) {
+					throw new RuntimeException("回答者の登録に失敗しました", e);
+				}
+			} else {
+				//既に回答している場合は回答情報を更新する
+				logger.info("answerUpdateCount start");
+				int answerUpdateCount = answerRegistAccessor.answerAttendUpdate(eventId, answerRegistForm.getAnswerName(), eventDate, answerAttendance[i]);
+				logger.info("answerUpdateCount end: {}", answerUpdateCount);
 			}
 			i++;
 		}
 	}
-
 }

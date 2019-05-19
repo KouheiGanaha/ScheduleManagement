@@ -45,7 +45,6 @@ public class AnswerRegistAccessor {
 		return resultCount;
 	}
 
-
 	/**
 	 * 回答情報を登録
 	 */
@@ -54,5 +53,67 @@ public class AnswerRegistAccessor {
 				+ "values (ANSWER_ATTEND_NO.NEXTVAL,?,?,?,?)",eventId,answerUserName,answerEventDate,answerAttendance);
 		return resultCount;
 	}
+
+	/**
+	 * 登録する氏名が既にTB_TRN_USER_ANSWERに存在しないか確認
+	 * @param eventId
+	 * @param answerUserName
+	 * @return
+	 */
+	public Map<String, Object> getAnswerRegistUserNameCount(String eventId, String answerUserName) {
+		Map<String, Object> userNameCount = jdbcTemplate.queryForMap("select count(*) ANSWER_USER_COUNT from TB_TRN_USER_ANSWER where EVENT_ID = ? and ANSWER_USER_NAME = ?", eventId,answerUserName);
+		return userNameCount;
+	}
+
+	/**
+	 * 氏名を取得
+	 * @param eventId
+	 * @param answerUserName
+	 * @return
+	 */
+	public Map<String, Object> getAnswerRegistUserName(String eventId, String answerUserName) {
+		Map<String, Object> userName = jdbcTemplate.queryForMap("select ANSWER_USER from TB_TRN_USER_ANSWER where EVENT_ID = ? and ANSWER_USER_NAME = ?", eventId, answerUserName);
+		return userName;
+	}
+
+	/**
+	 * イベントIDと氏名をキーにしてTB_TRN_ANSWER_ATTENDから回答情報件数を取得
+	 * @param eventId
+	 * @param answerUserName
+	 * @return
+	 */
+	public Map<String, Object> getAnswerAttendUserNameCount(String eventId, String answerUserName) {
+		Map<String, Object> userNameCount = jdbcTemplate.queryForMap("select count(*) ANSWER_USER_COUNT from TB_TRN_ANSWER_ATTEND where EVENT_ID = ? and ANSWER_USER_NAME = ?", eventId,answerUserName);
+		return userNameCount;
+	}
+
+	/**
+	 * 回答を更新する
+	 * @param eventId
+	 * @param answerUserName
+	 * @param answerEventDate
+	 * @param answerAttendance
+	 * @return
+	 */
+	public int answerAttendUpdate(String eventId, String answerUserName, String answerEventDate, int answerAttendance) {
+		int updateCount = jdbcTemplate.update("update TB_TRN_ANSWER_ATTEND set ANSWER_ATTENDANCE = ? where EVENT_ID = ? and ANSWER_USER_NAME = ? and ANSWER_EVENT_DATE = ?", answerAttendance, eventId, answerUserName , answerEventDate);
+		return updateCount;
+
+	}
+
+	/**
+	 * コメントを更新する
+	 * @param eventId
+	 * @param answerUserName
+	 * @param comment
+	 * @return
+	 */
+	public int commentUpdate(String eventId, String answerUserName, String comment) {
+		int updateCount = jdbcTemplate.update("update TB_TRN_USER_ANSWER set ANSWER_USER_COMMENT = ? where EVENT_ID = ? and ANSWER_USER_NAME = ?", comment, eventId, answerUserName);
+		return updateCount;
+
+	}
+
+
 
 }
