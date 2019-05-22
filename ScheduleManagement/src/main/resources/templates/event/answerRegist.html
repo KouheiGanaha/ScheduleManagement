@@ -12,26 +12,29 @@
 		<div class="container">
 			<div class="row">
 				<div class="bg-gradient-light text-dark">
-					<H2>出欠回答</H2>
+					<H2><strong>出欠回答</strong></H2>
 						<input type="hidden" name="eventId" th:value="${eventData.get('EVENT_ID')}">
 						<input type="hidden" name="eventUrl" th:value="${eventData.get('EVENT_URL')}">
 						<input type="hidden" name="eventName" th:value="${eventData.get('EVENT_NAME')}">
 						<input type="hidden" name="eventMemo" th:value="${eventData.get('EVENT_MEMO')}">
 
-						<p>イベント名:<span th:text= "${eventData.get('EVENT_NAME')}"></span></p>
-						<p>イベントメモ:<span th:text= "${eventData.get('EVENT_MEMO')}"></span></p>
-						<p>氏名：<input type="text" th:field="*{answerName}"/></p>
+						<p class="text-muted">イベント名:<span th:text= "${eventData.get('EVENT_NAME')}"></span></p>
+						<p class="text-muted">イベントメモ:<span th:text= "${eventData.get('EVENT_MEMO')}"></span></p>
+
+						<div class="col-12 bg-gradient-light">
+							<p class="text-muted">氏名：<input type="text" th:field="*{answerName}"/></p>
+						</div>
 
 					<div th:each="eventDate, stat:${eventDate}">
-						<span th:text= "${eventDate.get('EVENT_DATE')}"></span>
+						<span class="col-12 bg-gradient-light text-muted" th:text= "${eventDate.get('EVENT_DATE')}"></span>
 
             			<input type="radio"  th:field="*{answerAttendance[__${stat.index}__]}" th:value="0" checked="checked">○
             			<input type="radio"  th:field="*{answerAttendance[__${stat.index}__]}" th:value="1">△
             			<input type="radio"  th:field="*{answerAttendance[__${stat.index}__]}" th:value="2">×
-      				</div>
+      				</div><br>
 				</div>
 			</div>
-						<p>コメント：<input type="text" th:field="*{comment}" /></p>
+						<p class="text-muted">コメント：<input type="text" th:field="*{comment}" /></p>
 
 						<div class="col-4 bg-gradient-light">
 							<input type="submit" class="btn btn-outline-dark" value="登録">

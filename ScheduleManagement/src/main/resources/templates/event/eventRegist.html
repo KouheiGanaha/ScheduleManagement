@@ -11,37 +11,37 @@
 	</head>
 	<body>
 		<form action="#" th:action="@{/event/eventResult}" th:object="${eventRegistForm}" method="post">
-			<div class="container">
+			<div class="container-fluid">
 				<div class="row">
 					<div class="bg-gradient-light text-dark">
-						<H2>イベント登録</H2>
+						<h2><strong>イベント登録</strong></h2>
 
 						<p th:text="${eventNameError}" style="color: red" />
 						<p th:text="${eventMemoError}" style="color: red" />
 						<p th:text="${eventDateError}" style="color: red" />
 
-					<div class="col-9 bg-gradient-light">
+					<div class="col-md-12 bg-gradient-light">
 						<div class="form-group">
-						<label>イベント名</label>
-						<input type="text" class="form-control" th:field="*{eventName}" placeholder="イベント名" />
+							<label>イベント名</label>
+							<input type="text" class="form-control" th:field="*{eventName}" placeholder="イベント名" />
 						</div>
 					</div>
 
 					<div class="form-group row">
 						<div class="col-6 bg-gradient-light">
 							<label>イベントメモ</label>
-							<textarea type="text" th:field="*{eventMemo}" placeholder="イベントメモ" class="form-control"></textarea>
+							<textarea type="text" class="form-control" th:field="*{eventMemo}" placeholder="イベントメモ" ></textarea>
 						</div>
 
 						<div class="col-6 bg-gradient-light">
 							<label>候補日</label>
-							<textarea type="text" th:field="*{eventDate}" placeholder="候補日" class="form-control"></textarea>
+							<textarea type="text" class="form-control" th:field="*{eventDate}" placeholder="候補日"></textarea>
 						</div>
 					</div>
 
-					<div class="col-4 bg-gradient-light">
-						<input type="submit" class="btn btn-outline-dark" value="登録">
-					</div>
+						<div class="col-12 bg-gradient-light">
+							<button type="submit" class="btn btn-outline-dark btn-lg">登録</button>
+						</div>
 					</div>
 				</div>
 			</div>
