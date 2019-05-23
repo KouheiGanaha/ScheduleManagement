@@ -8,28 +8,38 @@
 		      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 		<title>イベント登録結果画面</title>
+
+<style>
+.jumbotron-extend {
+	position: relative;
+	height: 100vh;
+	min-height: 300px;
+	background-color: #FFEEFF;
+}
+</style>
 	</head>
+	<body>
+		<form th:object="${eventRegistForm}">
+		<div class="jumbotron jumbotron-extend">
+			<div class="container-fluid" >
+				<div class="row">
+					<div class="bg-gradient-light text-dark">
+						<h2><strong>イベント登録 結果</strong></h2>
 
-<body>
-	<form th:object="${eventRegistForm}">
-		<div class="container" >
-			<div class="row">
-				<div class="bg-gradient-light text-dark">
-				<h2><strong>イベント登録 結果</strong></h2>
-
-				<div class="col-md-12 bg-gradient-light">
-					<div class="form-group">
-						<label>イベントURL</label>
-						<input type="text" class="form-control"  name="eventUrl" th:value="${eventUrl}" />
+					<div class="col-md-12 bg-gradient-light">
+						<div class="form-group">
+							<label>イベントURL</label>
+							<input type="text" class="form-control"  name="eventUrl" th:value="${eventUrl}" />
+						</div>
 					</div>
-				</div>
 
-				<div class="col-4 bg-gradient-light">
-				<a href="/event/answerRegist" class="btn btn-outline-dark" th:href="@{/event/answerRegist(Url=${map.get('EVENT_URL')})}">出欠回答</a>
-				</div>
+					<div class="col-4 bg-gradient-light">
+						<a href="/event/answerRegist" class="btn btn-outline-dark" th:href="@{/event/answerRegist(Url=${map.get('EVENT_URL')})}">出欠回答</a>
+					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 	</form>
 </body>
 </html>
