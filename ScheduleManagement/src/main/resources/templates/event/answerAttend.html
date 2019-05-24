@@ -5,61 +5,76 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<title>出欠参照画面</title>
+
+ 	<style>
+    	.list th {
+      	background-color: #E6FFE9;
+      	padding:10px;
+    	}
+    	.list td {
+      	padding:10px;
+    	}
+    	.jumbotron-extend {
+		position: relative;
+		height: 100vh;
+		min-height: 300px;
+		background-color: #E6FFE9;
+	}
+  	</style>
 	</head>
-<style>
-.jumbotron-extend {
-	position: relative;
-	height: 100vh;
-	min-height: 300px;
-	background-color: #FFEEFF;
-}
-</style>
-
 <body>
-<div class="jumbotron jumbotron-extend">
-		<div class="container-fluid">
+	<div class="jumbotron jumbotron-extend">
+		<div class="container">
 			<div class="row">
+				<div class="card mb-2 bg-light " style="width:800px;">
+
 				<div class="bg-gradient-light text-dark">
+				<div class="card-header text-white bg-success">
 					<H2><strong>出欠参照</strong></H2>
+				</div>
+				</div>
 
-			<p>イベント名:<span th:text= "${eventData.get('EVENT_NAME')}"></span></p>
-			<p>イベントメモ:<span th:text= "${eventData.get('EVENT_MEMO')}"></span></p>
+				<div class="card-body text-dark">
+					<h5><p>イベント名:<span th:text= "${eventData.get('EVENT_NAME')}"></span></p></h5>
+					<h5><p>イベントメモ:<span th:text= "${eventData.get('EVENT_MEMO')}"></span></p></h5>
 
-	    <table class="table table-bordered" align="left">
-        	<tr>
-        		<th>日程</th>
-        		<th>○</th>
-        		<th>△</th>
-        		<th>×</th>
-        	</tr>
+	    			<table border="2" class="list" align="left">
+        			<tr>
+        				<th>日程</th>
+        				<th>○</th>
+        				<th>△</th>
+        				<th>×</th>
+        			</tr>
 
-        	<tr th:each="answerAttendance : ${answerAttendance}">
-	    		<td th:text="${answerAttendance.Key}"></td>
-	    		<td th:text="${answerAttendance.Value.get('0')}"></td>
-	        	<td th:text="${answerAttendance.Value.get('1')}"></td>
-	        	<td th:text="${answerAttendance.Value.get('2')}"></td>
-        	</tr>
-		</table>
+        			<tr th:each="answerAttendance : ${answerAttendance}">
+	    				<td th:text="${answerAttendance.Key}"></td>
+	    				<td th:text="${answerAttendance.Value.get('0')}"></td>
+	        			<td th:text="${answerAttendance.Value.get('1')}"></td>
+	        			<td th:text="${answerAttendance.Value.get('2')}"></td>
+        			</tr>
+					</table>
 
 
-    	<table border="2" class="table">
-        	<thead>
-        		<th th:each = "header : ${header}">
-        			<span th:text="${header}"></span>
-        		</th>
-        	</thead>
+    				<table border="2" class="list">
+        			<thead>
+        				<th th:each = "header : ${header}">
+        					<span th:text="${header}"></span>
+        				</th>
+        			</thead>
 
-    		<tbody>
-				<tr th:each = "answerInfo : ${answerList}">
-					<th:block th:each="answerData : ${answerInfo}">
-						<td th:text="${answerData}"></td>
-					</th:block>
-				</tr>
-			</tbody>
-    	</table>
+    				<tbody>
+						<tr th:each = "answerInfo : ${answerList}">
+						<th:block th:each="answerData : ${answerInfo}">
+							<td th:text="${answerData}"></td>
+						</th:block>
+						</tr>
+					</tbody>
+    				</table>
+    			</div>
+    			</div>
+    		</div>
     	</div>
-    	</div>
-    	</div>
-    	</div>
+	</div>
 </body>
 </html>

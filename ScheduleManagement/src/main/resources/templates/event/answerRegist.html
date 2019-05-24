@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/html" lang="ja" xmlns:th="http://www.tyemeleaf.org">
+
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -7,46 +8,54 @@
 		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<title>出欠回答画面</title>
 
-<style>
-.jumbotron-extend {
-	position: relative;
-	height: 100vh;
-	min-height: 300px;
-	background-color: #FFEEFF;
-}
-</style>
-
+		<style>
+		.jumbotron-extend {
+		position: relative;
+		height: 100vh;
+		min-height: 300px;
+		background-color: #E6FFE9;
+		}
+		</style>
 	</head>
+
 <body>
-	<form class="form-horizontal" action="#" th:action="@{/create}" th:object="${answerRegistForm}">
+	<form action="#" th:action="@{/create}" th:object="${answerRegistForm}">
 	<div class="jumbotron jumbotron-extend">
-		<div class="container-fluid">
+		<div class="container">
 			<div class="row">
-				<div class="bg-gradient-light text-dark">
-					<H2><strong>出欠回答</strong></H2>
+				<div class="card mb-2 bg-light " style="width:800px;">
+
+					<div class="bg-gradient-light text-dark">
+					<div class="card-header text-white bg-success">
+						<H2><strong>出欠回答</strong></H2>
+					</div>
+					</div>
+
 						<input type="hidden" name="eventId" th:value="${eventData.get('EVENT_ID')}">
 						<input type="hidden" name="eventUrl" th:value="${eventData.get('EVENT_URL')}">
 						<input type="hidden" name="eventName" th:value="${eventData.get('EVENT_NAME')}">
 						<input type="hidden" name="eventMemo" th:value="${eventData.get('EVENT_MEMO')}">
 
-						<p>イベント名：<span th:text= "${eventData.get('EVENT_NAME')}"></span></p>
-						<p>イベントメモ：<span th:text= "${eventData.get('EVENT_MEMO')}"></span></p>
+					<div class="card-body text-dark">
+						<h4><p>イベント名：<span th:text= "${eventData.get('EVENT_NAME')}"></span></p></h4>
+						<h4><p>イベントメモ：<span th:text= "${eventData.get('EVENT_MEMO')}"></span></p></h4>
 
-						<div class="form-group">
+						<div class="form-group col-md-6">
 							<label for="userName">氏名</label>
 							<input type="text" class="form-control" id="userName" th:field="*{answerName}" placeholder="氏名"/>
 						</div>
 
 
+
 					<div th:each="eventDate, stat:${eventDate}">
-						<span class="col-12 bg-gradient-light" th:text= "${eventDate.get('EVENT_DATE')}"></span>
+						<span class="col-sm-6" th:text= "${eventDate.get('EVENT_DATE')}"></span>
 
             			<input type="radio"  th:field="*{answerAttendance[__${stat.index}__]}" th:value="0" checked="checked">○
             			<input type="radio"  th:field="*{answerAttendance[__${stat.index}__]}" th:value="1">△
             			<input type="radio"  th:field="*{answerAttendance[__${stat.index}__]}" th:value="2">×
       				</div><br>
 
-						<div class="form-group">
+						<div class="form-group  col-md-6">
 							<label for="comment">コメント</label>
 							<input type="text" class="form-control"  id="comment" th:field="*{comment}" placeholder="コメント"/>
 						</div>
@@ -55,8 +64,9 @@
 							<input type="submit" class="btn btn-outline-dark" value="登録">
 						</div>
 					</div>
+					</div>
+					</div>
 			</div>
-		</div>
 		</div>
 	</form>
 
