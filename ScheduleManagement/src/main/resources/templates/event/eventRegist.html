@@ -8,55 +8,67 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 		      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+		<link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+
 		<title>イベント登録画面</title>
 		<style>
-		.jumbotron-extend {
+		.jumbotron {
 		position: relative;
 		height: 100vh;
 		min-height: 300px;
 		background-color: #E6FFE9;
+		}
+		.padding-top10px {
+		padding-top: 10px
 		}
 		</style>
 	</head>
 
 <body>
 	<form action="#" th:action="@{/event/eventResult}" th:object="${eventRegistForm}" method="post">
-		<div class="jumbotron jumbotron-extend">
-			<div class="container">
-				<div class="row">
-					<div class="card mb-2 bg-light " style="width:800px;">
-
+		<div class="jumbotron">
+			<div class="container col-sm-8">
+				<div class="card bg-light">
 					<div class="card-header text-white bg-success">
 						<h2><strong>イベント登録</strong></h2>
 					</div>
 
-					<div class="alert" role="alert">
-						<p th:text="${eventNameError}" style="color: red" />
-						<p th:text="${eventMemoError}" style="color: red" />
-						<p th:text="${eventDateError}" style="color: red" />
+					<div class="card-body text-dark bg-gradient-light">
+						<div class="row">
+							<div class="alert col-sm-12" role="alert">
+								<p th:text="${eventNameError}" style="color: red" />
+								<p th:text="${eventMemoError}" style="color: red" />
+								<p th:text="${eventDateError}" style="color: red" />
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-12">
+								<h4>イベント名</h4>
+									<input type="text" class="form-control" th:field="*{eventName}" placeholder="イベント名を入力してください" />
+							</div>
+						</div>
+
+					<div class="padding-top10px">
+						<div class="row">
+							<div class="col-sm-6">
+								<h4>イベントメモ</h4>
+								<textarea type="text" class="form-control" rows="7" th:field="*{eventMemo}" placeholder="イベントメモを入力してください" ></textarea>
+							</div>
+
+							<div class="col-sm-6">
+								<h4>候補日</h4>
+								<textarea type="text" class="form-control" rows="7" th:field="*{eventDate}" placeholder="候補日を入力してください"></textarea>
+							</div>
+						</div>
 					</div>
 
-					<div class="card-body text-dark">
-					<div class="form-group">
-						<label>イベント名</label>
-						<input type="text" class="form-control" th:field="*{eventName}" placeholder="イベント名" />
-					</div>
-
-					<div class="form-group row">
-					<div class="col-6 bg-gradient-light">
-						<label>イベントメモ</label>
-						<textarea type="text" class="form-control" th:field="*{eventMemo}" placeholder="イベントメモ" ></textarea>
-					</div>
-
-					<div class="col-6 bg-gradient-light">
-						<label>候補日</label>
-						<textarea type="text" class="form-control" th:field="*{eventDate}" placeholder="候補日"></textarea>
-					</div>
-					</div>
-
-					<div class="col-12 bg-gradient-light">
-						<button type="submit" class="btn btn-outline-dark btn-lg">登録</button>
-					</div>
+					<div class="padding-top10px">
+						<div class="row">
+							<div class="col-sm-12">
+								<button type="submit" class="btn btn-outline-dark btn-lg"><i class="fas fa-pen"></i> 登録</button>
+							</div>
+						</div>
 					</div>
 					</div>
 				</div>

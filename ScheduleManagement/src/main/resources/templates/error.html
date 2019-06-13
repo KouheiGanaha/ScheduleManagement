@@ -2,14 +2,48 @@
 <html xmlns="http://www.w3.org/1999/html" lang="ja"
 	xmlns:th="http://www.tyemeleaf.org">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
 <title>Error</title>
+
+		<style>
+		.jumbotron-extend {
+		position: relative;
+		height: 100vh;
+		min-height: 300px;
+		}
+
+		.button-extend {
+		padding-top: 10px
+		}
+
+		.paddin-gbottom {
+		padding-bottom: 10px
+		}
+		</style>
 </head>
 <body>
+	<div class="jumbotron jumbotron-extend">
+		<div class="container col-sm-8">
+		    <div class="card bg-light  bg-gradient-light">
+		        <div class="card-header text-white bg-success">
+		        	<H2><strong>エラー</strong></H2>
+				</div>
 
-	<p th:text="${errorMessage}"/>
-	<p th:text="${answerNameError}" style="color: red" />
-	<p th:text="${commentError}" style="color: red" />
-
+				<div class="card-body text-dark bg-gradient-light">
+					<div class="row">
+						<div class="alert col-sm-12" role="alert">
+							<p th:text="${errorMessage}"/>
+							<p th:text="${answerNameError}" style="color: red" />
+							<p th:text="${commentError}" style="color: red" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
